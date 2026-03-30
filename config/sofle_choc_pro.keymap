@@ -133,11 +133,11 @@
 
         adobe_layer {
             bindings = <
-&trans  &trans  &trans  &trans  &trans          &kp N5                           &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &kp P   &kp E   &trans  &trans          &trans        &trans                     &trans  &trans  &trans  &trans  &trans
-&trans  &kp A   &kp S   &kp D   &kp LS(F)       &trans        &trans                     &trans  &trans  &trans  &trans  &trans
-&trans  &kp X   &trans  &trans  &trans          &trans        &trans     &trans  &trans  &trans  &trans  &trans  &trans  &trans
-                &trans  &trans  &kp LEFT_SHIFT  &kp LEFT_ALT  &kp SPACE  &trans  &trans  &trans  &trans  &trans
+&trans  &kp X      &trans  &trans     &trans          &kp N5                           &trans  &trans  &trans  &trans  &trans  &trans
+&trans  &kp P      &kp E   &trans     &trans          &trans        &trans                     &trans  &trans  &trans  &trans  &trans
+&trans  &kp A      &kp S   &kp D      &kp LS(F)       &trans        &trans                     &trans  &trans  &trans  &trans  &trans
+&trans  &kp LC(X)  &trans  &kp LC(C)  &kp LC(V)       &trans        &trans     &trans  &trans  &trans  &trans  &trans  &trans  &trans
+                   &trans  &trans     &kp LEFT_SHIFT  &kp LEFT_ALT  &kp SPACE  &trans  &trans  &trans  &trans  &trans
             >;
 
             sensor-bindings = <&inc_dec_kp LA(K_SCROLL_UP) 0>;
