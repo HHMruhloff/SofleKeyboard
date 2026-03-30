@@ -31,15 +31,17 @@
         compatible = "zmk,combos";
 
         adobe {
-            bindings = <&tog 4>;
+            bindings = <&to 4>;
             key-positions = <57 52>;
             layers = <4>;
+            timeout-ms = <100>;
         };
 
         default {
-            bindings = <&tog 0>;
-            key-positions = <52 57>;
+            bindings = <&to 0>;
+            key-positions = <57 52>;
             layers = <0>;
+            timeout-ms = <100>;
         };
     };
 
