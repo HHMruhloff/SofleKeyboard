@@ -39,7 +39,7 @@
 
         default {
             bindings = <&to 0>;
-            key-positions = <57 52>;
+            key-positions = <52 57>;
             layers = <0>;
             timeout-ms = <100>;
         };
@@ -135,14 +135,14 @@
 
         adobe_layer {
             bindings = <
-&trans  &kp X      &trans  &trans     &trans          &kp N5                           &trans  &trans  &trans  &trans  &trans  &trans
-&trans  &kp P      &kp E   &trans     &trans          &trans        &trans                     &trans  &trans  &trans  &trans  &trans
-&trans  &kp A      &kp S   &kp D      &kp LS(F)       &trans        &trans                     &trans  &trans  &trans  &trans  &trans
-&trans  &kp LC(X)  &trans  &kp LC(C)  &kp LC(V)       &trans        &trans     &trans  &trans  &trans  &trans  &trans  &trans  &trans
-                   &trans  &trans     &kp LEFT_SHIFT  &kp LEFT_ALT  &kp SPACE  &trans  &trans  &trans  &trans  &trans
+&trans  &kp X      &trans  &trans     &trans          &kp N5                                 &kp KP_NUMBER_7  &kp KP_NUMBER_8  &kp KP_NUMBER_9  &trans  &to 0   &trans
+&trans  &kp P      &kp E   &trans     &trans          &trans        &kp KP_NUMBER_4                           &kp KP_NUMBER_5  &kp KP_NUMBER_6  &trans  &trans  &trans
+&trans  &kp A      &kp S   &kp D      &kp LS(F)       &trans        &kp KP_NUMBER_1                           &kp KP_NUMBER_2  &kp KP_NUMBER_3  &trans  &trans  &trans
+&trans  &kp LC(X)  &trans  &kp LC(C)  &kp LC(V)       &trans        &trans           &trans  &kp KP_NUMBER_0  &trans           &trans           &trans  &trans  &trans
+                   &trans  &trans     &kp LEFT_SHIFT  &kp LEFT_ALT  &kp SPACE        &trans  &trans           &trans           &trans           &trans
             >;
 
-            sensor-bindings = <&inc_dec_kp K_SCROLL_UP K_SCROLL_DOWN>;
+            sensor-bindings = <&inc_dec_kp LC(EQUAL) LC(KP_MINUS)>;
         };
     };
 };
