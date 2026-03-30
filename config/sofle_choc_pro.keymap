@@ -28,6 +28,22 @@
         };
     };
 
+    combos {
+        compatible = "zmk,combos";
+
+        adobe {
+            bindings = <&none>;
+            key-positions = <0 1>;
+            layers = <4>;
+        };
+
+        default {
+            bindings = <&none>;
+            key-positions = <0 1>;
+            layers = <0>;
+        };
+    };
+
     keymap {
         compatible = "zmk,keymap";
 
