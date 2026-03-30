@@ -140,7 +140,7 @@
                    &trans  &trans     &kp LEFT_SHIFT  &kp LEFT_ALT  &kp SPACE  &trans  &trans  &trans  &trans  &trans
             >;
 
-            sensor-bindings = <&inc_dec_kp LA(K_SCROLL_UP) 0>;
+            sensor-bindings = <&inc_dec_kp K_SCROLL_UP K_SCROLL_DOWN>;
         };
     };
 };
