@@ -136,11 +136,11 @@
 
         adobe_layer {
             bindings = <
-&none           &kp X      &none  &none      &none      &kp N5                                &kp KP_NUMBER_7  &kp KP_NUMBER_8  &kp KP_NUMBER_9  &none  &to 0  &none
-&none           &kp P      &kp E  &none      &none      &none         &kp KP_NUMBER_4                          &kp KP_NUMBER_5  &kp KP_NUMBER_6  &none  &none  &none
-&none           &kp A      &kp S  &kp D      &kp LS(F)  &none         &kp KP_NUMBER_1                          &kp KP_NUMBER_2  &kp KP_NUMBER_3  &none  &none  &none
-&kp LEFT_SHIFT  &kp LC(X)  &none  &kp LC(C)  &kp LC(V)  &none         &none            &none  &kp KP_NUMBER_0  &none            &none            &none  &none  &none
-                           &none  &none      &trans     &kp LEFT_ALT  &kp SPACE        &none  &none            &trans           &none            &none
+&none           &none  &none      &none      &none      &none                                   &kp KP_NUMBER_7  &kp KP_NUMBER_8  &kp KP_NUMBER_9  &none  &to 0  &none
+&none           &kp P  &kp W      &kp E      &kp F5     &none           &kp KP_NUMBER_4                          &kp KP_NUMBER_5  &kp KP_NUMBER_6  &none  &none  &none
+&none           &kp A  &kp S      &kp D      &kp F      &kp F5          &kp KP_NUMBER_1                          &kp KP_NUMBER_2  &kp KP_NUMBER_3  &none  &none  &none
+&kp LEFT_SHIFT  &none  &kp LC(X)  &kp LC(C)  &kp LC(V)  &kp LEFT_SHIFT  &none            &none  &kp KP_NUMBER_0  &none            &none            &none  &none  &none
+                       &trans     &none      &trans     &kp LEFT_ALT    &kp SPACE        &none  &none            &trans           &none            &none
             >;
 
             sensor-bindings = <&inc_dec_kp LC(EQUAL) LC(KP_MINUS)>;
