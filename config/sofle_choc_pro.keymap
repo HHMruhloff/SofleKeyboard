@@ -31,16 +31,14 @@
     combos {
         compatible = "zmk,combos";
 
-        adobe {
-            bindings = <&tog 4>;
-            key-positions = <57 52>;
-            layers = <4>;
-        };
-
-        default {
-            bindings = <&tog 0>;
+        /* Diese Combo schaltet den Adobe-Layer ein, wenn er aus ist, 
+           und aus, wenn er an ist. Da kein 'layers' angegeben ist,
+           funktioniert sie immer.
+        */
+        toggle_adobe {
+            bindings = <&tog ADOBE>;
             key-positions = <52 57>;
-            layers = <0>;
+            timeout-ms = <50>;
         };
     };
 
