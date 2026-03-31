@@ -131,6 +131,7 @@
         };
 
         adobe_layer {
+            display-name = "adobe";
             bindings = <
 &kp DEL         &none  &none      &none      &none      &kp BACKSPACE                           &kp KP_NUMBER_7  &kp KP_NUMBER_8  &kp KP_NUMBER_9  &none  &to 0  &none
 &none           &kp P  &kp W      &kp E      &kp F5     &none           &kp KP_NUMBER_4                          &kp KP_NUMBER_5  &kp KP_NUMBER_6  &none  &none  &none
