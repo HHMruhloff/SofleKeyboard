@@ -138,7 +138,7 @@
 &kp LC(SLASH)   &kp P  &kp W      &kp E      &kp F5     &none           &kp KP_NUMBER_4                          &kp KP_NUMBER_5  &kp KP_NUMBER_6  &none  &none  &none
 &kp LC(RBKT)    &kp A  &kp S      &kp D      &kp F      &kp F5          &kp KP_NUMBER_1                          &kp KP_NUMBER_2  &kp KP_NUMBER_3  &none  &none  &none
 &kp LEFT_SHIFT  &none  &kp LC(X)  &kp LC(C)  &kp LC(V)  &kp LEFT_SHIFT  &none            &none  &kp KP_NUMBER_0  &none            &none            &none  &none  &none
-                       &trans     &trans     &trans     &kp RET         &kp SPACE        &none  &none            &trans           &trans           &none
+                       &trans     &trans     &trans     &kp SPACE       &kp RET          &none  &none            &trans           &trans           &none
             >;
 
             sensor-bindings = <&inc_dec_kp LC(RBKT) LC(SLASH)>;
