@@ -12,7 +12,6 @@
 #include "zmk-helpers.h"
 #include "keys_de.h"
 
-
 #define BASE 0
 #define LOWER 1
 #define RAISE 2
@@ -43,6 +42,11 @@
             bindings = <&tog ADOBE>;
             key-positions = <52 57>;
             timeout-ms = <50>;
+        };
+
+        externaloff {
+            bindings = <&ext_power EP_OFF>;
+            key-positions = <5 6>;
         };
     };
 
