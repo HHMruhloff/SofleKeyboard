@@ -47,6 +47,7 @@
         externaloff {
             bindings = <&ext_power EP_OFF>;
             key-positions = <5 6>;
+            timeout-ms = <50>;
         };
     };
 
