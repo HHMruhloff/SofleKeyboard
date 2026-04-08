@@ -149,7 +149,7 @@
                        &trans     &trans     &trans     &kp SPACE       &kp RET          &none  &none            &trans           &trans           &none
             >;
 
-            sensor-bindings = <&inc_dec_kp LC(DE_PLUS) LC(DE_MINUS)>;
+            sensor-bindings = <&inc_dec_kp LC(MINUS) LC(PLUS) &inc_dec_msc SCRL_UP SCRL_DOWN>;
         };
     };
 };
