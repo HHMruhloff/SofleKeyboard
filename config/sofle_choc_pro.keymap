@@ -105,9 +105,7 @@
                           &trans  &trans           &trans    &trans  &trans  &trans  &trans            &trans         &trans      &trans
             >;
 
-            sensor-bindings =
-                <&inc_dec_kp C_VOL_DN C_VOL_UP>,
-                <&inc_dec_kp LC(SLASH) LC(RIGHT_BRACKET)>;
+            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP>, <&inc_dec_msc SCRL_UP SCRL_DOWN>;
         };
 
         raise_layer {
