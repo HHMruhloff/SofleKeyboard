@@ -44,8 +44,8 @@
             timeout-ms = <50>;
         };
 
-        externaloff {
-            bindings = <&ext_power EP_OFF>;
+     external_toggle {
+            bindings = <&ext_power EP_TOG>; // Schaltet Displays ein UND aus
             key-positions = <5 6>;
             timeout-ms = <50>;
         };
