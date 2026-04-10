@@ -94,7 +94,7 @@
 
             sensor-bindings =
                 <&inc_dec_kp C_VOL_DN C_VOL_UP>,
-                &msc SCRL_UP SCRL_DOWN>
+                &msc MS_SCROLL_UP MS_SCROLL_DOWN>
         };
 
         lower_layer {
