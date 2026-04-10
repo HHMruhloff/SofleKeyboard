@@ -32,13 +32,6 @@
             flavor = "tap-preferred";  // Priorisiert den Buchstaben beim Tippen
             bindings = <&kp>, <&kp>;
         };
-
-        hwl: hwl {
-            compatible = "zmk,sensor-binding";
-            #sensor-binding-cells = <0>;
-            bindings = <&msc MS_SCROLL_UP>, <&msc MS_SCROLL_DOWN>;
-            tap-ms = <20>;
-        };
     };
 
     conditional_layers {
@@ -94,8 +87,9 @@
 
             sensor-bindings =
                 <&inc_dec_kp C_VOL_DN C_VOL_UP>,
-                <&hwl>;
+                <&inc_dec_kp K_SCROLL_DOWN K_SCROLL_UP>;
         };
+
 
         lower_layer {
             display-name = "lower";
