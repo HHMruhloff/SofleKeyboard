@@ -5,9 +5,10 @@ manifest:
     - name: urob
       url-base: https://github.com/urob
   projects:
-    - name: zmk
+    - name: zmk-urob
       remote: urob
-      revision: main # Urob integriert Mouse-Keys direkt in seinen main-Branch
+      revision: main
+      path: zmk
       import: app/west.yml
   self:
     path: config
