@@ -1,13 +1,9 @@
-manifest:
-  remotes:
-    - name: zmkfirmware
-      url-base: https://github.com/zmkfirmware
-    - name: urob
-      url-base: https://github.com/urob
-  projects:
-    - name: zmk
-      remote: urob
-      revision: main
-      import: app/west.yml
-  self:
-    path: config
+name: Build ZMK firmware
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  build:
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3
+    with:
+      build_matrix_path: "config/build.yaml"
+      config_path: "config"
