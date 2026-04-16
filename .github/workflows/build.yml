@@ -25,9 +25,6 @@ jobs:
       - name: West Update
         run: west update
 
-      - name: West Export
-        run: west export
-
       - name: West Build (Left)
         run: |
           export ZEPHYR_BASE=${{ github.workspace }}/zephyr
