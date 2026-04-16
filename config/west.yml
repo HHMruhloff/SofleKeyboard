@@ -7,7 +7,7 @@ manifest:
   projects:
     - name: zmk
       remote: urob
-      revision: main  # Nutze 'main' für urob's aktuelle Version inkl. Maus-Support
+      revision: v3.2 # Dieser Branch ist extrem stabil für Mouse-Features
       import: app/west.yml
   self:
     path: config
