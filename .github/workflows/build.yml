@@ -1,13 +1,44 @@
-- name: West Init
+name: Build ZMK firmware
+
+on:
+  push:
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build Test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install West
+        run: pip install west
+
+      - name: West Init
         run: west init -l config
 
       - name: West Update
         run: west update
 
-      - name: West Export
-        run: west export
-
       - name: West Build (Left)
-        run: |
-          export ZEPHYR_BASE=${{ github.workspace }}/zephyr
-          west build -p -s zmk/app -b sofle_choc_pro_left -- -DSHIELD=nice_view_disp -DZMK_CONFIG="${{ github.workspace }}/config" -DZMK_EXTRA_MODULES="${{ github.workspace }}" -DCONFIG_ZMK_STUDIO=y -DKCONFIG_ERROR_ABORT=n
+        run: west build -p -s zmk/app -b sofle_choc_pro_left -- -DSHIELD=nice_view_disp -DZMK_CONFIG="${{ github.workspace }}/config" -DZMK_EXTRA_MODULES="${{ github.workspace }}" -DCONFIG_ZMK_STUDIO=y -DKCONFIG_ERROR_ABORT=n
+
+      - name: Save Left UF2
+        run: mv build/zephyr/zmk.uf2 sofle_left.uf2
+
+      - name: West Build (Right)
+        run: west build -p -s zmk/app -b sofle_choc_pro_right -- -DSHIELD=nice_view_disp -DZMK_CONFIG="${{ github.workspace }}/config" -DZMK_EXTRA_MODULES="${{ github.workspace }}" -DKCONFIG_ERROR_ABORT=n
+
+      - name: Save Right UF2
+        run: mv build/zephyr/zmk.uf2 sofle_right.uf2
+
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: firmware
+          path: "*.uf2"
