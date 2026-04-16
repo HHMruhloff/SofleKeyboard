@@ -3,34 +3,4 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    container:
-      image: zmkfirmware/zmk-build-arm:3.5
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: West Init
-        run: west init -l config
-
-      - name: West Update
-        run: west update
-
-      - name: West Build (Left)
-        run: west build -s zmk/app -p -b sofle_choc_pro_left -- -DSHIELD=nice_view_disp -DZMK_CONFIG="$GITHUB_WORKSPACE/config" -DZMK_EXTRA_MODULES="$GITHUB_WORKSPACE" -DCONFIG_ZMK_STUDIO=y
-
-      - name: West Build (Right)
-        run: west build -s zmk/app -p -b sofle_choc_pro_right -- -DSHIELD=nice_view_disp -DZMK_CONFIG="$GITHUB_WORKSPACE/config" -DZMK_EXTRA_MODULES="$GITHUB_WORKSPACE"
-
-      - name: Rename & Archive
-        run: |
-          mkdir output
-          cp build/zephyr/zmk.uf2 output/sofle_right.uf2
-          # Da wir nacheinander bauen, ist die left.uf2 in der Historie schwer zu greifen. 
-          # Für den ersten Test reicht es aber, wenn überhaupt eine Datei kommt!
-          
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: firmware
-          path: output/*.uf2
+    uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@v0.3
