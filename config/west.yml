@@ -2,10 +2,12 @@ manifest:
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
+    - name: urob # Der Entwickler, der die Maus-Features aktuell am stabilsten pflegt
+      url-base: https://github.com/urob
   projects:
     - name: zmk
-      remote: zmkfirmware
-      revision: v0.3
+      remote: urob
+      revision: v3.5-mouse-6.0 # Dieser Branch enthält Mouse Keys + neues Zephyr
       import: app/west.yml
   self:
     path: config
