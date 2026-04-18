@@ -4,11 +4,11 @@
 * SPDX-License-Identifier: MIT
 */
 
-#include <dt-bindings/zmk/mouse.h>
 #include <behaviors.dtsi>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/mouse.h>  // Jetzt hier platziert
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/ext_power.h>
-#include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/rgb.h>
 #include "zmk-helpers.h"
 #include "keys_de.h"
