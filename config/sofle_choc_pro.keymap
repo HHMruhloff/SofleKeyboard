@@ -86,7 +86,7 @@
 
             sensor-bindings =
                 <&inc_dec_kp C_VOL_UP C_VOL_DN>,
-                <&kp SCROL_UP>, <&kp SCROL_DOWN>;
+                &inc_dec_kp SCROL_UP SCROL_DOWN>;
         };
 
         lower_layer {
