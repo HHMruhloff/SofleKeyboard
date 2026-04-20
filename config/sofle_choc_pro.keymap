@@ -156,10 +156,10 @@
         adobe_layer {
             display-name = "adobe";
             bindings = <
-&kp DEL                &kp DE_DOT             &kp DE_COMMA           &kp DE_N1              &kp DE_N0              &kp BACKSPACE                   &none     &none     &none     &none     &none     &none
-&kp LC(RIGHT_BRACKET)  &kp DE_P               &kp DE_W               &kp DE_E               &kp DE_R               &kp DE_T       &kp DE_Z                   &kp DE_U  &kp DE_I  &kp DE_O  &kp DE_P  &none
-&kp LC(SLASH)          &hm LEFT_CONTROL DE_A  &hm LEFT_CONTROL DE_S  &hm LEFT_CONTROL DE_D  &hm LEFT_CONTROL DE_F  &kp DE_G       &kp DE_H                   &kp DE_J  &kp DE_K  &kp DE_L  &none     &none
-&kp LEFT_SHIFT         &kp DE_Y               &kp DE_X               &kp DE_C               &kp DE_V               &kp DE_B       &none     &none  &kp DE_N  &kp DE_M  &none     &none     &none     &none
+&kp DEL                &kp DE_DOT             &kp DE_COMMA           &kp DE_N1              &kp DE_N0              &kp BACKSPACE                   &none     &none     &none     &none     &none     &kp F12
+&kp LC(RIGHT_BRACKET)  &kp DE_P               &kp DE_W               &kp DE_E               &kp DE_R               &kp DE_T       &kp DE_Z                   &kp DE_U  &kp DE_I  &kp DE_O  &kp DE_P  &kp F11
+&kp LC(SLASH)          &hm LEFT_CONTROL DE_A  &hm LEFT_CONTROL DE_S  &hm LEFT_CONTROL DE_D  &hm LEFT_CONTROL DE_F  &kp DE_G       &kp DE_H                   &kp DE_J  &kp DE_K  &kp DE_L  &none     &kp F10
+&kp LEFT_SHIFT         &kp DE_Y               &kp DE_X               &kp DE_C               &kp DE_V               &kp DE_B       &none     &none  &kp DE_N  &kp DE_M  &none     &none     &none     &kp F9
                                               &kp F5                 &trans                 &trans                 &kp DE_SPACE   &kp RET   &none  &none     &trans    &trans    &none
             >;
 
