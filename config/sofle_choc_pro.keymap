@@ -117,7 +117,7 @@
             //                |      |       |       |      |      |  |      |      |      |       |      |
 
             bindings = <
-&bt BT_CLR  &bt BT_SEL 0    &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4                    &none  &none     &none     &none      &none  &studio_unlock
+&bt BT_CLR  &bt BT_SEL 0    &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4                    &none  &none     &none     &none      &none  &none
 &none       &kp DE_AT_SIGN  &kp PSCRN     &kp DE_EURO   &none         &none         &kp PG_UP                &none     &kp UP    &none      &none  &none
 &none       &none           &none         &none         &none         &none         &kp PG_DN                &kp LEFT  &kp DOWN  &kp RIGHT  &none  &none
 &none       &kp K_UNDO      &kp K_CUT     &kp K_COPY    &kp K_PASTE   &none         &none      &none  &none  &none     &none     &none      &none  &none
