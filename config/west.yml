@@ -1,11 +1,9 @@
 manifest:
   remotes:
     - name: zmkfirmware
-      url-base: https://github.com/zmkfirmware
+      url-base: https://github.com/ftc/ # Fork mit Mouse-Support
   projects:
     - name: zmk
       remote: zmkfirmware
-      revision: v0.3
+      revision: mouse-ftc # Dieser Branch ist oft kompatibler mit älteren Configs
       import: app/west.yml
-  self:
-    path: config
