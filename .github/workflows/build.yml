@@ -9,10 +9,10 @@ jobs:
       image: zmkfirmware/zmk-build-arm:stable
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Cache west modules
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: cache-zephyr-modules
         with:
@@ -49,7 +49,7 @@ jobs:
         run: cp build/zephyr/zmk.uf2 sofle_right.uf2
 
       - name: Archive artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: firmware
           path: |
