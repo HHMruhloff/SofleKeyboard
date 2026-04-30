@@ -19,9 +19,8 @@
                    &kp LGUI &kp LALT &kp SPACE &mo 1       &kp ENTER  &kp RGUI
             >;
 
-            // Wir nutzen hier klassische Keys für den Test, um den Parse-Error zu isolieren
-            // Wenn das funktioniert, wissen wir, dass die Maus-Header das Problem sind.
-            sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp PG_UP PG_DN>;
+            // Rechter Encoder: Vertikales Scrollen mit msc (Mouse Scroll)
+            sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp SCRL_UP SCRL_DN>;
         };
 
         lower_layer {
@@ -34,7 +33,8 @@
                    &trans &trans &trans &trans                 &trans   &trans
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+            // Linker Encoder: Zoom (STRG + Scroll) | Rechter Encoder: Horizontales Scrollen
+            sensor-bindings = <&inc_dec_kp LC(SCRL_UP) LC(SCRL_DN) &inc_dec_kp SCRL_LEFT SCRL_RIGHT>;
         };
     };
 };
