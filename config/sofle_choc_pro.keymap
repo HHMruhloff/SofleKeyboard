@@ -5,15 +5,6 @@
 #include <dt-bindings/zmk/outputs.h>
 #include <dt-bindings/zmk/mouse.h>
 
-/* Manuelle Definitionen für das neue ZMK Input System, 
-   falls die Header in Zephyr 4.1.0 noch nicht greifen */
-#ifndef SCRL_UP
-    #define SCRL_UP    SCROLL_VERT(15)
-    #define SCRL_DN    SCROLL_VERT(-15)
-    #define SCRL_LEFT  SCROLL_HOR(-15)
-    #define SCRL_RIGHT SCROLL_HOR(15)
-#endif
-
 / {
     keymap {
         compatible = "zmk,keymap";
@@ -28,8 +19,9 @@
                    &kp LGUI &kp LALT &kp SPACE &mo 1       &kp ENTER  &kp RGUI
             >;
 
-            // Rechter Encoder: Vertikales Scrollen
-            sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp SCRL_UP SCRL_DN>;
+            // Linker Encoder: Page Up/Down 
+            // Rechter Encoder: Mausrad (Scroll) - Wir nutzen die neuen msc Bindings direkt
+            sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp MS_WHL_UP MS_WHL_DN>;
         };
 
         lower_layer {
@@ -42,8 +34,8 @@
                    &trans &trans &trans &trans                 &trans   &trans
             >;
 
-            // Linker Encoder: Zoom (STRG + Scroll) | Rechter Encoder: Horizontales Scrollen
-            sensor-bindings = <&inc_dec_kp LC(SCRL_UP) LC(SCRL_DN) &inc_dec_kp SCRL_LEFT SCRL_RIGHT>;
+            // Zoom (STRG + Rad) und Horizontales Scrollen
+            sensor-bindings = <&inc_dec_kp LC(MS_WHL_UP) LC(MS_WHL_DN) &inc_dec_kp MS_WHL_LT MS_WHL_RT>;
         };
     };
 };
