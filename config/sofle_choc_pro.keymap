@@ -6,10 +6,6 @@
 #include <dt-bindings/zmk/mouse.h>
 
 / {
-    behaviors {
-        // Hier können wir bei Bedarf Anpassungen vornehmen
-    };
-
     keymap {
         compatible = "zmk,keymap";
 
@@ -23,8 +19,9 @@
                    &kp LGUI &kp LALT &kp SPACE &mo 1       &kp ENTER  &kp RGUI
             >;
 
-            // Linker Encoder: Page Up/Down | Rechter Encoder: Vertikales Scrollen
-            sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp SCROLL_VERT(15) SCROLL_VERT(-15)>;
+            // Wir nutzen hier klassische Keys für den Test, um den Parse-Error zu isolieren
+            // Wenn das funktioniert, wissen wir, dass die Maus-Header das Problem sind.
+            sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp PG_UP PG_DN>;
         };
 
         lower_layer {
@@ -37,8 +34,7 @@
                    &trans &trans &trans &trans                 &trans   &trans
             >;
 
-            // Linker Encoder: Zoom (STRG + Scroll) | Rechter Encoder: Horizontales Scrollen
-            sensor-bindings = <&inc_dec_kp LC(SCROLL_VERT(15)) LC(SCROLL_VERT(-15)) &inc_dec_kp SCROLL_HOR(15) SCROLL_HOR(-15)>;
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
         };
     };
 };
