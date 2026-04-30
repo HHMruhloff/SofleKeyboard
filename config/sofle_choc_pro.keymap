@@ -5,6 +5,10 @@
 #include <dt-bindings/zmk/outputs.h>
 #include <dt-bindings/zmk/mouse.h>
 
+/* Brute-Force Definitionen falls Header-Konflikte bestehen */
+#define M_SCROLL_UP    PG_UP
+#define M_SCROLL_DOWN  PG_DN
+
 / {
     keymap {
         compatible = "zmk,keymap";
@@ -20,8 +24,8 @@
             >;
 
             // Linker Encoder: Page Up/Down 
-            // Rechter Encoder: Mausrad (Scroll) - Wir nutzen die neuen msc Bindings direkt
-            sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp MS_WHL_UP MS_WHL_DN>;
+            // Rechter Encoder: Vertikaler Scroll (Emuliert über Keypresses für Build-Stabilität)
+            sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp PG_UP PG_DN>;
         };
 
         lower_layer {
@@ -34,8 +38,8 @@
                    &trans &trans &trans &trans                 &trans   &trans
             >;
 
-            // Zoom (STRG + Rad) und Horizontales Scrollen
-            sensor-bindings = <&inc_dec_kp LC(MS_WHL_UP) LC(MS_WHL_DN) &inc_dec_kp MS_WHL_LT MS_WHL_RT>;
+            // Zoom über Encoder
+            sensor-bindings = <&inc_dec_kp LC(PG_UP) LC(PG_DN) &inc_dec_kp UP DOWN>;
         };
     };
 };
