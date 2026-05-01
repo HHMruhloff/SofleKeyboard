@@ -5,8 +5,7 @@ manifest:
   projects:
     - name: zmk
       remote: zmkfirmware
-      # Dieser Commit ist stabil, hat Studio-Support und nutzt noch Zephyr 3.5
-      revision: 052445695022e3796d859a8507204481ca698545
+      revision: zmk-studio
       import: app/west.yml
   self:
     path: config
