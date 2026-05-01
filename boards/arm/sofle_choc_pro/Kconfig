@@ -1,7 +1,9 @@
-if BOARD_SOFLE_CHOC_PRO_LEFT || BOARD_SOFLE_CHOC_PRO_RIGHT
+config BOARD_SOFLE_CHOC_PRO_LEFT
+    bool "Sofle Choc Pro Left"
+    depends on SOC_NRF52840_QIAA
+    select ZMK_STUDIO if $(success,test,-e,$(srctree)/app/Kconfig.studio)
 
-config BOARD_SOFLE_CHOC_PRO
-	bool
-	select SOC_NRF52840_QIAA
-
-endif
+config BOARD_SOFLE_CHOC_PRO_RIGHT
+    bool "Sofle Choc Pro Right"
+    depends on SOC_NRF52840_QIAA
+    select ZMK_STUDIO if $(success,test,-e,$(srctree)/app/Kconfig.studio)
