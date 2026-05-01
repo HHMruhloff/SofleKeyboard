@@ -19,8 +19,8 @@
                    &kp LGUI &kp LALT &kp SPACE &mo 1       &kp ENTER  &kp RGUI
             >;
 
-            // Wir nutzen erst einmal Standard-Tasten, um den Kconfig-Fehler zu isolieren
-            sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp UP DOWN>;
+            // Encoder: Links (Scroll) | Rechts (Vol)
+            sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp C_VOL_UP C_VOL_DN>;
         };
 
         lower_layer {
@@ -33,7 +33,7 @@
                    &trans &trans &trans &trans                 &trans   &trans
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
+            sensor-bindings = <&inc_dec_kp C_AC_ZOOM_IN C_AC_ZOOM_OUT &inc_dec_kp PG_UP PG_DN>;
         };
     };
 };
