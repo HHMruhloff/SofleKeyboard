@@ -6,5 +6,3 @@ toolchain:
   - zephyr
 ram: 256
 flash: 1024
-testing:
-  - ignore
