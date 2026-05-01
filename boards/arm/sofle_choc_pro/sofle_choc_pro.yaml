@@ -1,15 +1,10 @@
-identifier: sofle_choc_pro
-name: Sofle Choc Pro BT
-type: mcu
+identifier: sofle_choc_pro_left
+name: sofle_choc_pro_left
+type: board
 arch: arm
 toolchain:
   - zephyr
-  - gnuarmemb
-  - xtools
-supported:
-  - adc
-  - usb_device
-  - ble
-  - ieee802154
-  - pwm
-  - watchdog
+ram: 256
+flash: 1024
+testing:
+  - ignore
