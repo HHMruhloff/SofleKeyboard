@@ -19,8 +19,8 @@
                    &kp LGUI &kp LALT &kp SPACE &mo 1       &kp ENTER  &kp RGUI
             >;
 
-            // Linker Encoder: Page Up/Down | Rechter Encoder: Vertikales Scrollen
-            sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp SCRL_UP SCRL_DN>;
+            // Rechter Encoder: Vertikales Scrollen
+            sensor-bindings = <&inc_dec_kp PG_UP PG_DN &inc_dec_kp SCROLL_UP SCROLL_DOWN>;
         };
 
         lower_layer {
@@ -34,7 +34,7 @@
             >;
 
             // Linker Encoder: Zoom (STRG + Scroll) | Rechter Encoder: Horizontales Scrollen
-            sensor-bindings = <&inc_dec_kp LC(SCRL_UP) LC(SCRL_DN) &inc_dec_kp SCRL_LEFT SCRL_RIGHT>;
+            sensor-bindings = <&inc_dec_kp LC(SCROLL_UP) LC(SCROLL_DOWN) &inc_dec_kp SCROLL_LEFT SCROLL_RIGHT>;
         };
     };
 };
