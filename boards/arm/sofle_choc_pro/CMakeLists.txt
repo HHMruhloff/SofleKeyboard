@@ -1,3 +1,1 @@
-zephyr_board_set_soc_variant(nRF52840_QIAA)
-
-zephyr_library()
+zephyr_board_set_soc_variant(nrf52840)
