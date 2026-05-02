@@ -1,9 +1,10 @@
+board:
+  name: sofle_choc_pro_left
+  vendor: custom
+  soc: nrf52840_qiaa
 identifier: sofle_choc_pro_left
-name: sofle_choc_pro_left
 type: board
 arch: arm
-family: nrf52          # Hinzugefügt
-soc: nrf52840_qiaa     # Hinzugefügt
 toolchain:
   - zephyr
 ram: 256
