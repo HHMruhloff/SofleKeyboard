@@ -1,0 +1,6 @@
+name: sofle_choc_pro_right
+type: board
+arch: arm
+soc: nrf52840
+vendor: custom
+identifier: sofle_choc_pro_right
