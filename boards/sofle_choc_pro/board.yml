@@ -2,11 +2,9 @@ board:
   name: sofle_choc_pro
   vendor: custom
   soc: nrf52840
-
-identifier: sofle_choc_pro
-type: board
-arch: arm
-
-variants:
-  - name: sofle_choc_pro_left
-  - name: sofle_choc_pro_right
+  identifier: sofle_choc_pro
+  type: board
+  arch: arm
+  variants:
+    - name: sofle_choc_pro_left
+    - name: sofle_choc_pro_right
