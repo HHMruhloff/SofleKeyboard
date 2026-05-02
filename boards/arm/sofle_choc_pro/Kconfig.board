@@ -1,7 +1,7 @@
 config BOARD_SOFLE_CHOC_PRO_LEFT
-	bool "sofle_choc_pro_left"
-	depends on SOC_NRF52840_QIAA
+    bool "sofle_choc_pro_left"
+    depends on SOC_NRF52840_QIAA
 
 config BOARD_SOFLE_CHOC_PRO_RIGHT
-	bool "sofle_choc_pro_right"
-	depends on SOC_NRF52840_QIAA
+    bool "sofle_choc_pro_right"
+    depends on SOC_NRF52840_QIAA
