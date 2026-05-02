@@ -1,5 +1,5 @@
 board:
-  name: sofle_choc_pro
+  name: solfle_choc_pro
   vendor: custom
   soc: nrf52840
   identifier: sofle_choc_pro
@@ -10,4 +10,3 @@ board:
       qualifier: nrf52840
     - name: sofle_choc_pro_right
       qualifier: nrf52840
-      
