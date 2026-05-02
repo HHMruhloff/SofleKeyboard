@@ -1,3 +1,3 @@
 build:
   settings:
-    board_root: .  # Sagt Zephyr: "Suche Boards direkt im boards/ Ordner"
+    board_root: .
