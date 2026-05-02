@@ -1,9 +1,12 @@
 board:
   name: sofle_choc_pro
   vendor: custom
-  soc: nrf52840          # Diese Zeile muss GENAU 2 Leerzeichen eingerückt sein
-  variants:
-    - name: sofle_choc_pro_left
-    - name: sofle_choc_pro_right
+  soc: nrf52840
 
 identifier: sofle_choc_pro
+type: board
+arch: arm
+
+variants:
+  - name: sofle_choc_pro_left
+  - name: sofle_choc_pro_right
