@@ -5,3 +5,6 @@ board:
   identifier: sofle_choc_pro
   type: board
   arch: arm
+  revisions:
+    - name: 1.0.0
+      full_name: "Sofle Choc Pro Rev 1"
