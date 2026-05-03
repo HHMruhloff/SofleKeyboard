@@ -11,9 +11,10 @@ manifest:
       revision: main
       import: app/west.yml
     - name: SofleKeyboard
-      remote: dein-github-name
-      revision: ModernCode  # <--- Das ist die entscheidende Zeile!
-      path: boards/sofle_choc_pro # Pfad, unter dem es im Build-Container landet
+      remote: HHMruhloff        # <--- Muss exakt mit dem Namen oben übereinstimmen!
+      revision: ModernCode
+      # Wir legen es in einen separaten Ordner, damit es nicht mit 'config' kollidiert
+      path: external-modules/SofleKeyboard 
   
   self:
     path: config
