@@ -3,7 +3,7 @@ manifest:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
     - name: dein-github-name  # Ersetze dies durch deinen GitHub-Usernamen
-      url-base: https://github.com/dein-github-name
+      url-base: https://github.com/HHMruhloff
   
   projects:
     - name: zmk
