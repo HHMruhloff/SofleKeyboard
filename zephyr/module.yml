@@ -1,5 +1,0 @@
-build:
-  boards:
-    - boards
-  shields:
-    - shields
