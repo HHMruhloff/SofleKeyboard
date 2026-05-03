@@ -9,3 +9,4 @@ manifest:
       import: app/west.yml
   self:
     path: config
+    name: zmk-config # Zwingend erforderlich für Modul-Erkennung

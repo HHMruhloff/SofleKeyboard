@@ -1,0 +1,5 @@
+config BOARD_SOFLE_CHOC_PRO_LEFT
+    def_bool $(boards_lowlevel_ok,sofle_choc_pro_left)
+
+config BOARD_SOFLE_CHOC_PRO_RIGHT
+    def_bool $(boards_lowlevel_ok,sofle_choc_pro_right)
