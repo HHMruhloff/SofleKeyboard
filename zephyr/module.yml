@@ -1,6 +1,0 @@
-# zephyr/module.yml
-build:
-  boards:
-    - boards
-  shields:
-    - shields
