@@ -1,0 +1,8 @@
+file_format: "1"
+id: sofle_choc_pro
+name: "Sofle Choc Pro"
+type: board
+arch: arm
+boards:
+  - id: sofle_choc_pro_left
+  - id: sofle_choc_pro_right
