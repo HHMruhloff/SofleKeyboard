@@ -9,3 +9,5 @@ manifest:
       import: app/west.yml
   self:
     path: config
+    # Wichtig: ZMK braucht diesen Namen, um das Repo als Modul zu listen
+    name: zmk-config
