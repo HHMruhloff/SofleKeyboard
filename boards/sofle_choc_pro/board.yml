@@ -1,12 +1,13 @@
 board:
-  name: sofle_choc_pro
-  vendor: custom
-  soc: nrf52840
-  identifier: sofle_choc_pro
-  type: board
-  arch: arm
-  revisions:
-    - name: left
-      full_name: "Sofle Choc Pro Left"
-    - name: right
-      full_name: "Sofle Choc Pro Right"
+    name: sofle_choc_pro
+    vendor: custom
+    soc: nrf52840
+    identifier: sofle_choc_pro
+    type: board
+    arch: arm
+    revisions:
+        - name: 1.0.0
+          full_name: "Sofle Choc Pro Rev 1"
+          variants:
+              - name: left
+              - name: right
