@@ -5,6 +5,3 @@ on: [push, pull_request, workflow_dispatch]
 jobs:
   build:
     uses: zmkfirmware/zmk/.github/workflows/build-user-config.yml@main
-    with:
-      # Wir zwingen den Build, das aktuelle Verzeichnis als Modul zu laden
-      extra_cmake_args: "-DZMK_EXTRA_MODULES=${{ github.workspace }}"
