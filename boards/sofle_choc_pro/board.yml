@@ -1,3 +1,4 @@
+# boards/sofle_choc_pro/board.yml
 board:
   name: sofle_choc_pro
   vendor: custom
@@ -7,6 +8,4 @@ board:
   arch: arm
   revisions:
     - name: left
-      full_name: "Sofle Choc Pro Left"
     - name: right
-      full_name: "Sofle Choc Pro Right"
