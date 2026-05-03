@@ -2,7 +2,7 @@ manifest:
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
-    - name: dein-github-name  # Ersetze dies durch deinen GitHub-Usernamen
+    - name: HHMruhloff
       url-base: https://github.com/HHMruhloff
   
   projects:
