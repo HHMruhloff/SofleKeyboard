@@ -1,3 +1,4 @@
+# zephyr/module.yml im Hauptverzeichnis
 build:
   settings:
     board_root: .
