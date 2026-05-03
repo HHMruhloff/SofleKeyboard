@@ -2,19 +2,10 @@ manifest:
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
-    - name: HHMruhloff
-      url-base: https://github.com/HHMruhloff
-  
   projects:
     - name: zmk
       remote: zmkfirmware
       revision: main
       import: app/west.yml
-    - name: SofleKeyboard
-      remote: HHMruhloff        # <--- Muss exakt mit dem Namen oben übereinstimmen!
-      revision: ModernCode
-      # Wir legen es in einen separaten Ordner, damit es nicht mit 'config' kollidiert
-      path: external-modules/SofleKeyboard 
-  
   self:
     path: config
