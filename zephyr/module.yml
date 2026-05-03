@@ -1,5 +1,6 @@
-# zephyr/module.yml im Hauptverzeichnis
+# zephyr/module.yml
 build:
-  settings:
-    board_root: .
-    shield_root: .
+  boards:
+    - boards
+  shields:
+    - shields
