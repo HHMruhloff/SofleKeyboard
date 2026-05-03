@@ -1,7 +1,0 @@
-board:
-  name: sofle_choc_pro_right
-  vendor: custom
-  soc: nrf52840
-  identifier: sofle_choc_pro_right
-  type: board
-  arch: arm

@@ -1,9 +1,0 @@
-if BOARD_SOFLE_CHOC_PRO_RIGHT
-
-config BOARD
-    default "sofle_choc_pro_right"
-
-# Das ist wichtig, damit die nRF52840 Einstellungen geladen werden
-source "boards/arm/sofle_choc_pro_right/Kconfig.defconfig"
-
-endif
