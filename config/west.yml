@@ -9,5 +9,3 @@ manifest:
       import: app/west.yml
   self:
     path: config
-    # Das hier sagt ZMK, dass dieses Repo ein Modul ist:
-    module: true
