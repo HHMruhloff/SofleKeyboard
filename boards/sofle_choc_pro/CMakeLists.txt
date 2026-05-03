@@ -1,1 +1,0 @@
-zephyr_board_set_soc_variant(nrf52840)
