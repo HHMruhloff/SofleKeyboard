@@ -2,10 +2,18 @@ manifest:
   remotes:
     - name: zmkfirmware
       url-base: https://github.com/zmkfirmware
+    - name: dein-github-name  # Ersetze dies durch deinen GitHub-Usernamen
+      url-base: https://github.com/dein-github-name
+  
   projects:
     - name: zmk
       remote: zmkfirmware
       revision: main
       import: app/west.yml
+    - name: SofleKeyboard
+      remote: dein-github-name
+      revision: ModernCode  # <--- Das ist die entscheidende Zeile!
+      path: boards/sofle_choc_pro # Pfad, unter dem es im Build-Container landet
+  
   self:
     path: config
