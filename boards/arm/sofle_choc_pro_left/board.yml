@@ -1,6 +1,11 @@
 board:
   name: sofle_choc_pro_left
   full_name: Sofle Choc Pro Left
-  revision: 1.0.0
   vendor: custom
-  soc: nordic,nrf52840_qiaa
+  revision:
+    format: major.minor.patch
+    default: 1.0.0
+    exact: true
+
+build:
+  soc: nrf52840_qiaa
