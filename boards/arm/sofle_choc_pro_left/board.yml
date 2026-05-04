@@ -1,0 +1,4 @@
+board:
+  name: sofle_choc_pro_left
+build:
+  soc: nrf52840_qiaa
