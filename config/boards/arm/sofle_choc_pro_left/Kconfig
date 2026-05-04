@@ -1,6 +1,1 @@
-if BOARD_SOFLE_CHOC_PRO_LEFT
 
-# Hier definieren wir nichts weiter, ZMK/Zephyr ziehen 
-# sich die SoC-Daten automatisch über die Hardware-Abhängigkeit.
-
-endif
