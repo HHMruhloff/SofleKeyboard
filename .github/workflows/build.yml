@@ -19,14 +19,15 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install West
-        run: pip install west
+      - name: Install West and Validator
+        run: |
+          pip install west
+          pip install pykwalify  # Erzwingt den neusten YAML-Validator
 
       - name: Cache west modules
         uses: actions/cache@v4
         env:
-          # V6 um sicherzugehen, dass absolut nichts Altes geladen wird
-          cache-name: cache-zephyr-modules-v6
+          cache-name: cache-zephyr-modules-v7
         with:
           path: |
             modules
@@ -34,7 +35,7 @@ jobs:
             zephyr
             bootloader
             zmk
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/west.yml') }}
+          key: ${{ runner.os }}-build-${{ env.cache-name-v7 }}-${{ hashFiles('**/west.yml') }}
 
       - name: Initialize workspace
         run: |
@@ -44,32 +45,26 @@ jobs:
 
       - name: Clean and Prepare Board Directory
         run: |
-          # Radikaler Clean: Löscht alte Strukturen, falls vorhanden
           rm -rf boards/arm/
           rm -rf boards/sofle_choc_pro_left/
           mkdir -p boards/sofle_choc_pro_left/
 
-      - name: Force Create Board File (Hardware Model V2)
+      - name: Force Create Board File
         run: |
-          # Wir nutzen printf, um exakte Kontrolle über Newlines (\n) zu haben
-          # Dies eliminiert alle Probleme mit "Malformed build section"
-          printf "board:\n" > boards/sofle_choc_pro_left/board.yml
-          printf "  name: sofle_choc_pro_left\n" >> boards/sofle_choc_pro_left/board.yml
-          printf "  vendor: custom\n" >> boards/sofle_choc_pro_left/board.yml
-          printf "build:\n" >> boards/sofle_choc_pro_left/board.yml
-          printf "  soc: nrf52840_qiaa\n" >> boards/sofle_choc_pro_left/board.yml
+          # Wir nutzen hier das absolut minimale V2 Format ohne jeglichen Schnickschnack
+          printf "board:\n  name: sofle_choc_pro_left\n  vendor: custom\n\nbuild:\n  soc: nrf52840_qiaa\n" > boards/sofle_choc_pro_left/board.yml
           
           echo "--- DEBUG: FILE CONTENT ---"
           cat boards/sofle_choc_pro_left/board.yml
-          echo "--- DEBUG: HEX DUMP ---"
-          od -c boards/sofle_choc_pro_left/board.yml
 
       - name: West Build
+        env:
+          # Wir setzen die Pfade als ENV, damit CMake sie garantiert sieht
+          ZEPHYR_BASE: ${{ github.workspace }}/zephyr
+          BOARD_ROOT: ${{ github.workspace }}
         run: |
-          # Wir setzen BOARD_ROOT auf das aktuelle Verzeichnis (.)
           west build -s zmk/app -d "/tmp/tmp.left" -b "sofle_choc_pro_left" -- \
           -DZMK_CONFIG="${{ github.workspace }}/config" \
-          -DBOARD_ROOT="${{ github.workspace }}" \
           -DZEPHYR_EXTRA_MODULES="${{ github.workspace }}"
 
       - name: Archive artifacts
