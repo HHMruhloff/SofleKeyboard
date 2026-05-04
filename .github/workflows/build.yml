@@ -25,8 +25,8 @@ jobs:
       - name: Cache west modules
         uses: actions/cache@v4
         env:
-          # V5 erzwingt einen komplett neuen Download aller Abhängigkeiten
-          cache-name: cache-zephyr-modules-v5
+          # V6 um sicherzugehen, dass absolut nichts Altes geladen wird
+          cache-name: cache-zephyr-modules-v6
         with:
           path: |
             modules
@@ -42,31 +42,31 @@ jobs:
           west update
           west zephyr-export
 
-      - name: Fix Directory Structure
+      - name: Clean and Prepare Board Directory
         run: |
-          # Wir löschen alte Board-Reste, um Konflikte zu vermeiden
+          # Radikaler Clean: Löscht alte Strukturen, falls vorhanden
           rm -rf boards/arm/
+          rm -rf boards/sofle_choc_pro_left/
           mkdir -p boards/sofle_choc_pro_left/
 
       - name: Force Create Board File (Hardware Model V2)
         run: |
-          # Wir erstellen eine absolut minimale V2 Datei
-          cat <<EOF > boards/sofle_choc_pro_left/board.yml
-          board:
-            name: sofle_choc_pro_left
-            vendor: custom
-          
-          build:
-            soc: nrf52840_qiaa
-          EOF
+          # Wir nutzen printf, um exakte Kontrolle über Newlines (\n) zu haben
+          # Dies eliminiert alle Probleme mit "Malformed build section"
+          printf "board:\n" > boards/sofle_choc_pro_left/board.yml
+          printf "  name: sofle_choc_pro_left\n" >> boards/sofle_choc_pro_left/board.yml
+          printf "  vendor: custom\n" >> boards/sofle_choc_pro_left/board.yml
+          printf "build:\n" >> boards/sofle_choc_pro_left/board.yml
+          printf "  soc: nrf52840_qiaa\n" >> boards/sofle_choc_pro_left/board.yml
           
           echo "--- DEBUG: FILE CONTENT ---"
           cat boards/sofle_choc_pro_left/board.yml
+          echo "--- DEBUG: HEX DUMP ---"
+          od -c boards/sofle_choc_pro_left/board.yml
 
       - name: West Build
         run: |
-          # Wir setzen BOARD_ROOT explizit auf den aktuellen Ordner
-          # Und nutzen -DBOARD=sofle_choc_pro_left
+          # Wir setzen BOARD_ROOT auf das aktuelle Verzeichnis (.)
           west build -s zmk/app -d "/tmp/tmp.left" -b "sofle_choc_pro_left" -- \
           -DZMK_CONFIG="${{ github.workspace }}/config" \
           -DBOARD_ROOT="${{ github.workspace }}" \
