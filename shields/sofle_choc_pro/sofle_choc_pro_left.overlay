@@ -1,0 +1,24 @@
+#include "sofle_choc_pro.dtsi"
+
+&kscan0 {
+    col-gpios
+        = <&gpio0 1  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // Beispiel-Pins, bitte anpassen!
+        , <&gpio0 2  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&gpio0 3  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&gpio0 4  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&gpio0 5  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        , <&gpio0 6  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+        ;
+
+    row-gpios
+        = <&gpio1 1  GPIO_ACTIVE_HIGH>
+        , <&gpio1 2  GPIO_ACTIVE_HIGH>
+        , <&gpio1 3  GPIO_ACTIVE_HIGH>
+        , <&gpio1 4  GPIO_ACTIVE_HIGH>
+        , <&gpio1 5  GPIO_ACTIVE_HIGH>
+        ;
+};
+
+&left_encoder {
+    status = "okay";
+};
