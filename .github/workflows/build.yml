@@ -25,8 +25,8 @@ jobs:
       - name: Cache west modules
         uses: actions/cache@v4
         env:
-          # Wir erzwingen einen komplett frischen Workspace
-          cache-name: cache-zephyr-modules-v4
+          # V5 erzwingt einen komplett neuen Download aller Abhängigkeiten
+          cache-name: cache-zephyr-modules-v5
         with:
           path: |
             modules
@@ -42,25 +42,31 @@ jobs:
           west update
           west zephyr-export
 
-      - name: Force Create Board File (Strict V2 Schema)
+      - name: Fix Directory Structure
         run: |
+          # Wir löschen alte Board-Reste, um Konflikte zu vermeiden
+          rm -rf boards/arm/
           mkdir -p boards/sofle_choc_pro_left/
+
+      - name: Force Create Board File (Hardware Model V2)
+        run: |
+          # Wir erstellen eine absolut minimale V2 Datei
+          cat <<EOF > boards/sofle_choc_pro_left/board.yml
+          board:
+            name: sofle_choc_pro_left
+            vendor: custom
           
-          # Wir nutzen printf für präzisere Kontrolle über Zeilenumbrüche
-          printf "board:\n" > boards/sofle_choc_pro_left/board.yml
-          printf "  name: sofle_choc_pro_left\n" >> boards/sofle_choc_pro_left/board.yml
-          printf "  vendor: custom\n" >> boards/sofle_choc_pro_left/board.yml
-          printf "  revision:\n" >> boards/sofle_choc_pro_left/board.yml
-          printf "    format: major.minor.patch\n" >> boards/sofle_choc_pro_left/board.yml
-          printf "    default: 1.0.0\n" >> boards/sofle_choc_pro_left/board.yml
-          printf "build:\n" >> boards/sofle_choc_pro_left/board.yml
-          printf "  soc: nrf52840_qiaa\n" >> boards/sofle_choc_pro_left/board.yml
+          build:
+            soc: nrf52840_qiaa
+          EOF
           
           echo "--- DEBUG: FILE CONTENT ---"
           cat boards/sofle_choc_pro_left/board.yml
 
       - name: West Build
         run: |
+          # Wir setzen BOARD_ROOT explizit auf den aktuellen Ordner
+          # Und nutzen -DBOARD=sofle_choc_pro_left
           west build -s zmk/app -d "/tmp/tmp.left" -b "sofle_choc_pro_left" -- \
           -DZMK_CONFIG="${{ github.workspace }}/config" \
           -DBOARD_ROOT="${{ github.workspace }}" \
