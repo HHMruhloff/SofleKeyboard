@@ -1,4 +1,6 @@
-# Diese Datei kann leer bleiben oder nur die Hardware-Abhängigkeit enthalten
 if BOARD_SOFLE_CHOC_PRO_LEFT
-# Hier keine source-Befehle mit Pfaden!
+
+# Hier definieren wir nichts weiter, ZMK/Zephyr ziehen 
+# sich die SoC-Daten automatisch über die Hardware-Abhängigkeit.
+
 endif
