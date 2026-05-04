@@ -3,9 +3,9 @@ if BOARD_SOFLE_CHOC_PRO_LEFT
 config BOARD
     default "sofle_choc_pro_left"
 
-# Das hier ist oft die Zeile, die knallt. 
-# Wir entfernen das "source" auf sich selbst oder korrigieren es:
 config ZMK_KEYBOARD_NAME
     default "Sofle Choc Pro"
+
+# Falls hier ein 'source "boards/arm/..."' stand: UNBEDINGT LÖSCHEN!
 
 endif
