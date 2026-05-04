@@ -1,45 +1,11 @@
-/dts-v1/;
-/*
- * Copyright (c) 2020 The ZMK Contributors
- *
- * SPDX-License-Identifier: MIT
- */
-
-#include "sofle_choc_pro.dtsi"
-#include <dt-bindings/led/led.h>
-#include <dt-bindings/zmk/matrix_transform.h>
-
-/ {
-    model = "sofle_choc_pro_left";
-    compatible = "sofle_choc_pro_left";
-
-    chosen {
-        zmk,physical-layout = &physical_layout0;
+chosen {
+        zmk,physical-layout = &default_layout; // Geändert auf default_layout
         zmk,kscan = &kscan0;
         zmk,battery = &fuelgauge;
         zmk,underglow = &led_strip;
     };
 
-    kscan0: kscan {
-        compatible = "zmk,kscan-gpio-matrix";
-        wakeup-source;
-        diode-direction = "col2row";
-        row-gpios
-            = <&gpio0 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&gpio0  6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&gpio0 31 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&gpio0 30 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            , <&gpio1  9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-            ;
-        col-gpios
-            = <&gpio0  7 GPIO_ACTIVE_HIGH>
-            , <&gpio0 12 GPIO_ACTIVE_HIGH>
-            , <&gpio0  4 GPIO_ACTIVE_HIGH>
-            , <&gpio0  5 GPIO_ACTIVE_HIGH>
-            , <&gpio0  8 GPIO_ACTIVE_HIGH>
-            , <&gpio0 17 GPIO_ACTIVE_HIGH>
-            ;
-    };
+    /* ... kscan0 definition ... */
 
     default_transform: keymap_transform_0 {
         compatible = "zmk,matrix-transform";
@@ -54,109 +20,9 @@
         >;
     };
 
-    physical_layout0: physical_layout_0 {
+    default_layout: default_layout {
         compatible = "zmk,physical-layout";
         display-name = "Default Layout";
-        transform = <&default_transform>;
+        transform = <&default_transform>; // Das MUSS hier stehen
         kscan = <&kscan0>;
     };
-
-    EXT_POWER {
-        compatible = "zmk,ext-power-generic";
-        control-gpios = <&gpio0 28 GPIO_ACTIVE_HIGH>;
-        init-delay-ms = <50>;
-    };
-};
-
-&left_encoder {
-    status = "okay";
-    a-gpios = <&gpio1 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-    b-gpios = <&gpio0 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_UP)>;
-};
-
-&pinctrl {
-    i2c1_default: i2c1_default {
-        group1 {
-            psels = <NRF_PSEL(TWIM_SDA, 1, 13)>,
-                    <NRF_PSEL(TWIM_SCL, 0, 2)>;
-        };
-    };
-
-    i2c1_sleep: i2c1_sleep {
-        group1 {
-            psels = <NRF_PSEL(TWIM_SDA, 1, 13)>,
-                    <NRF_PSEL(TWIM_SCL, 0, 2)>;
-            low-power-enable;
-        };
-    };
-
-    spi0_default: spi0_default {
-        group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 1, 0)>,
-                    <NRF_PSEL(SPIM_MOSI, 0, 22)>,
-                    <NRF_PSEL(SPIM_MISO, 0, 25)>;
-        };
-    };
-
-    spi0_sleep: spi0_sleep {
-        group1 {
-            psels = <NRF_PSEL(SPIM_SCK, 1, 0)>,
-                    <NRF_PSEL(SPIM_MOSI, 0, 22)>,
-                    <NRF_PSEL(SPIM_MISO, 0, 25)>;
-            low-power-enable;
-        };
-    };
-
-    spi3_default: spi3_default {
-        group1 {
-            psels = <NRF_PSEL(SPIM_MOSI, 0, 26)>;
-        };
-    };
-
-    spi3_sleep: spi3_sleep {
-        group1 {
-            psels = <NRF_PSEL(SPIM_MOSI, 0, 26)>;
-            low-power-enable;
-        };  
-    };
-};
-
-&spi0 {
-    status = "okay";
-    pinctrl-0 = <&spi0_default>;
-    pinctrl-1 = <&spi0_sleep>;
-    pinctrl-names = "default", "sleep";
-    cs-gpios = <&gpio0 20 GPIO_ACTIVE_HIGH>;
-};
-
-&spi3 {
-    status = "okay";
-    pinctrl-0 = <&spi3_default>;
-    pinctrl-1 = <&spi3_sleep>;
-    pinctrl-names = "default", "sleep";
-
-    led_strip: ws2812@0 {
-        compatible = "worldsemi,ws2812-spi";
-        reg = <0>;
-        spi-max-frequency = <4000000>;
-        chain-length = <30>;
-        spi-one-frame = <0x70>;
-        spi-zero-frame = <0x40>;
-        color-mapping = <LED_COLOR_ID_GREEN
-                         LED_COLOR_ID_RED
-                         LED_COLOR_ID_BLUE>;
-    };
-};
-
-&i2c1 {
-    status = "okay";
-    pinctrl-0 = <&i2c1_default>;
-    pinctrl-1 = <&i2c1_sleep>;
-    pinctrl-names = "default", "sleep";
-    clock-frequency = <100000>;
-
-    fuelgauge: max17048@36 {
-        compatible = "zmk,maxim-max17048";
-        reg = <0x36>;
-    };
-};
