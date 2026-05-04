@@ -13,8 +13,31 @@
     compatible = "sofle_choc_pro_left";
 
     chosen {
+        zmk,kscan = &kscan0;
         zmk,battery = &fuelgauge;
         zmk,underglow = &led_strip;
+    };
+
+    /* Wir definieren kscan0 hier direkt, da es in der dtsi fehlt */
+    kscan0: kscan {
+        compatible = "zmk,kscan-gpio-matrix";
+        wakeup-source;
+        diode-direction = "col2row";
+        row-gpios
+            = <&gpio0 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&gpio0  6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&gpio0 31 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&gpio0 30 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&gpio1  9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            ;
+        col-gpios
+            = <&gpio0  7 GPIO_ACTIVE_HIGH>
+            , <&gpio0 12 GPIO_ACTIVE_HIGH>
+            , <&gpio0  4 GPIO_ACTIVE_HIGH>
+            , <&gpio0  5 GPIO_ACTIVE_HIGH>
+            , <&gpio0  8 GPIO_ACTIVE_HIGH>
+            , <&gpio0 17 GPIO_ACTIVE_HIGH>
+            ;
     };
 
     /* Node name must match original "EXT_POWER" label to preserve user settings. */
@@ -23,24 +46,6 @@
         control-gpios = <&gpio0 28 GPIO_ACTIVE_HIGH>;
         init-delay-ms = <50>;
     };
-};
-
-&kscan0 {
-    row-gpios
-        = <&gpio0 15 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-        , <&gpio0  6 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-        , <&gpio0 31 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-        , <&gpio0 30 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-        , <&gpio1  9 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
-        ;
-    col-gpios
-        = <&gpio0  7 GPIO_ACTIVE_HIGH>
-        , <&gpio0 12 GPIO_ACTIVE_HIGH>
-        , <&gpio0  4 GPIO_ACTIVE_HIGH>
-        , <&gpio0  5 GPIO_ACTIVE_HIGH>
-        , <&gpio0  8 GPIO_ACTIVE_HIGH>
-        , <&gpio0 17 GPIO_ACTIVE_HIGH>
-        ;
 };
 
 &left_encoder {
