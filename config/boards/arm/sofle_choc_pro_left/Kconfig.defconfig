@@ -6,6 +6,4 @@ config BOARD
 config ZMK_KEYBOARD_NAME
     default "Sofle Choc Pro"
 
-# Falls hier ein 'source "boards/arm/..."' stand: UNBEDINGT LÖSCHEN!
-
 endif
