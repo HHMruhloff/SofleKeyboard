@@ -25,8 +25,7 @@ jobs:
       - name: Cache west modules
         uses: actions/cache@v4
         env:
-          # Version im Key erhöht, um Cache-Reset zu erzwingen
-          cache-name: cache-zephyr-modules-v2
+          cache-name: cache-zephyr-modules-v3
         with:
           path: |
             modules
@@ -42,21 +41,28 @@ jobs:
           west update
           west zephyr-export
 
-      - name: Debug Board File (Find the Error)
+      - name: Force Create Board File
         run: |
-          echo "--- Exakter Pfad-Check ---"
-          ls -R boards/
-          echo "--- Inhalt der board.yml ---"
+          # Wir stellen sicher, dass der Ordner existiert
+          mkdir -p boards/sofle_choc_pro_left/
+          
+          # Wir schreiben die board.yml Zeile für Zeile neu (Linux LF Format)
+          echo "board:" > boards/sofle_choc_pro_left/board.yml
+          echo "  name: sofle_choc_pro_left" >> boards/sofle_choc_pro_left/board.yml
+          echo "  vendor: custom" >> boards/sofle_choc_pro_left/board.yml
+          echo "build:" >> boards/sofle_choc_pro_left/board.yml
+          echo "  soc: nrf52840_qiaa" >> boards/sofle_choc_pro_left/board.yml
+          
+          echo "--- Verifizierter Inhalt der board.yml ---"
           cat boards/sofle_choc_pro_left/board.yml
-          echo "--- Hex-Dump (zeigt unsichtbare Zeichen/Tabs) ---"
-          od -c boards/sofle_choc_pro_left/board.yml
 
       - name: West Build
         run: |
           west build -s zmk/app -d "/tmp/tmp.left" -b "sofle_choc_pro_left" -- \
           -DZMK_CONFIG="${{ github.workspace }}/config" \
           -DBOARD_ROOT="${{ github.workspace }}" \
-          -DZEPHYR_EXTRA_MODULES="${{ github.workspace }}"
+          -DZEPHYR_EXTRA_MODULES="${{ github.workspace }}" \
+          -DSHIELD="sofle_choc_pro_left"
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
