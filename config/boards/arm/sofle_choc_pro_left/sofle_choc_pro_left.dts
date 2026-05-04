@@ -13,6 +13,8 @@
     compatible = "sofle_choc_pro_left";
 
     chosen {
+        /* Das physische Layout muss hier definiert sein */
+        zmk,physical-layout = &physical_layout0;
         zmk,kscan = &kscan0;
         zmk,battery = &fuelgauge;
         zmk,underglow = &led_strip;
@@ -38,6 +40,14 @@
             , <&gpio0  8 GPIO_ACTIVE_HIGH>
             , <&gpio0 17 GPIO_ACTIVE_HIGH>
             ;
+    };
+
+    /* Diese Sektion hat gefehlt und den Fehler verursacht */
+    physical_layout0: physical_layout_0 {
+        compatible = "zmk,physical-layout";
+        display-name = "Default Layout";
+        kscan = <&kscan0>;
+        /* Falls du eine Transform-Datei hast, müsste hier &layout_transform stehen */
     };
 
     /* Node name must match original "EXT_POWER" label to preserve user settings. */
