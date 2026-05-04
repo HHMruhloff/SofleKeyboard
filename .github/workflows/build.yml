@@ -10,6 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: Build Left Side
+    env:
+      ZEPHYR_BASE: ${{ github.workspace }}/zephyr
+      BOARD_ROOT: ${{ github.workspace }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -19,15 +22,13 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install West and Validator
-        run: |
-          pip install west
-          pip install pykwalify  # Erzwingt den neusten YAML-Validator
+      - name: Install West
+        run: pip install west
 
       - name: Cache west modules
         uses: actions/cache@v4
         env:
-          cache-name: cache-zephyr-modules-v7
+          cache-name: cache-zephyr-modules-v8 # Version erneut erhöht
         with:
           path: |
             modules
@@ -35,7 +36,7 @@ jobs:
             zephyr
             bootloader
             zmk
-          key: ${{ runner.os }}-build-${{ env.cache-name-v7 }}-${{ hashFiles('**/west.yml') }}
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/west.yml') }}
 
       - name: Initialize workspace
         run: |
@@ -43,27 +44,32 @@ jobs:
           west update
           west zephyr-export
 
-      - name: Clean and Prepare Board Directory
+      - name: Force Create Board Structure (Strict V2)
         run: |
-          rm -rf boards/arm/
-          rm -rf boards/sofle_choc_pro_left/
+          # Wir löschen ALLES Alte und bauen es sauber auf
+          rm -rf boards/arm boards/sofle_choc_pro_left
           mkdir -p boards/sofle_choc_pro_left/
-
-      - name: Force Create Board File
-        run: |
-          # Wir nutzen hier das absolut minimale V2 Format ohne jeglichen Schnickschnack
-          printf "board:\n  name: sofle_choc_pro_left\n  vendor: custom\n\nbuild:\n  soc: nrf52840_qiaa\n" > boards/sofle_choc_pro_left/board.yml
           
+          # Erzeuge board.yml mit expliziter Revisions-Struktur
+          cat <<EOF > boards/sofle_choc_pro_left/board.yml
+          board:
+            name: sofle_choc_pro_left
+            vendor: custom
+            revision:
+              format: major.minor.patch
+              default: 1.0.0
+          
+          build:
+            soc: nrf52840_qiaa
+          EOF
+
           echo "--- DEBUG: FILE CONTENT ---"
           cat boards/sofle_choc_pro_left/board.yml
 
       - name: West Build
-        env:
-          # Wir setzen die Pfade als ENV, damit CMake sie garantiert sieht
-          ZEPHYR_BASE: ${{ github.workspace }}/zephyr
-          BOARD_ROOT: ${{ github.workspace }}
         run: |
-          west build -s zmk/app -d "/tmp/tmp.left" -b "sofle_choc_pro_left" -- \
+          # Wir nutzen --pristine, um CMake-Altlasten zu killen
+          west build -p always -s zmk/app -d "/tmp/tmp.left" -b "sofle_choc_pro_left" -- \
           -DZMK_CONFIG="${{ github.workspace }}/config" \
           -DZEPHYR_EXTRA_MODULES="${{ github.workspace }}"
 
