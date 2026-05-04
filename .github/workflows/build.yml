@@ -1,6 +1,56 @@
-- name: West Build (Left)
+name: Build ZMK Firmware
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build Left Side
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Cache west modules
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-zephyr-modules
+        with:
+          path: |
+            modules
+            tools
+            zephyr
+            bootloader
+            zmk
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/west.yml') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Initialize workspace (west init)
+        run: west init -l config
+
+      - name: Update modules (west update)
+        run: west update
+
+      - name: Export Zephyr CMake package
+        run: west zephyr-export
+
+      - name: West Build (Left Side)
         run: |
           west build -s zmk/app -d "/tmp/tmp.left" -b "sofle_choc_pro_left" -- \
           -DZMK_CONFIG="${{ github.workspace }}/config" \
           -Dboard_dir="${{ github.workspace }}/boards/arm/sofle_choc_pro_left" \
           -DSHIELD="sofle_choc_pro_left"
+
+      - name: Rename ZMK Firmware
+        run: |
+          if [ -f /tmp/tmp.left/zephyr/zmk.uf2 ]; then
+            cp /tmp/tmp.left/zephyr/zmk.uf2 sofle_choc_pro_left.uf2
+          fi
+
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: firmware
+          path: |
+            sofle_choc_pro_left.uf2
