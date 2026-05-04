@@ -1,10 +1,10 @@
 name: Build ZMK Firmware
 on:
   push:
-    branches: [ main ]
+    branches: [ main, ModernCode ] # Füge ModernCode hinzu, wenn du in diesem Branch arbeitest
   pull_request:
-    branches: [ main ]
-  workflow_dispatch: # Erlaubt das manuelle Starten unter dem "Actions" Tab
+    branches: [ main, ModernCode ]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -34,36 +34,22 @@ jobs:
             bootloader
             zmk
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/west.yml') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
 
-      - name: Initialize workspace (west init)
-        run: west init -l config
+      - name: Initialize workspace
+        run: |
+          west init -l config
+          west update
+          west zephyr-export
 
-      - name: Update modules (west update)
-        run: west update
-
-      - name: Export Zephyr CMake package
-        run: west zephyr-export
-
-      - name: West Build (Left Side)
+      - name: West Build
         run: |
           west build -s zmk/app -d "/tmp/tmp.left" -b "sofle_choc_pro_left" -- \
           -DZMK_CONFIG="${{ github.workspace }}/config" \
           -DZEPHYR_EXTRA_MODULES="${{ github.workspace }}" \
           -DSHIELD="sofle_choc_pro_left"
 
-      - name: Rename ZMK Firmware
-        run: |
-          if [ -f /tmp/tmp.left/zephyr/zmk.uf2 ]; then
-            cp /tmp/tmp.left/zephyr/zmk.uf2 sofle_choc_pro_left.uf2
-          fi
-
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
         with:
           name: firmware
-          path: |
-            sofle_choc_pro_left.uf2
+          path: /tmp/tmp.left/zephyr/zmk.uf2
