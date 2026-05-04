@@ -45,9 +45,8 @@ jobs:
         run: |
           west build -s zmk/app -d "/tmp/tmp.left" -b "sofle_choc_pro_left" -- \
           -DZMK_CONFIG="${{ github.workspace }}/config" \
-          -DZEPHYR_EXTRA_MODULES="${{ github.workspace }}" \
           -DBOARD_ROOT="${{ github.workspace }}" \
-          -DSHIELD="sofle_choc_pro_left"
+          -DZEPHYR_EXTRA_MODULES="${{ github.workspace }}"
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
