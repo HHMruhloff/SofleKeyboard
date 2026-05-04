@@ -1,3 +1,0 @@
-config SHIELD_NICE_VIEW_DISP
-    bool
-    default y if $(shields_list_contains,nice_view_disp)
