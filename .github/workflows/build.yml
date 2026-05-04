@@ -25,7 +25,8 @@ jobs:
       - name: Cache west modules
         uses: actions/cache@v4
         env:
-          cache-name: cache-zephyr-modules-v3
+          # Wir erzwingen einen komplett frischen Workspace
+          cache-name: cache-zephyr-modules-v4
         with:
           path: |
             modules
@@ -41,19 +42,21 @@ jobs:
           west update
           west zephyr-export
 
-      - name: Force Create Board File
+      - name: Force Create Board File (Strict V2 Schema)
         run: |
-          # Wir stellen sicher, dass der Ordner existiert
           mkdir -p boards/sofle_choc_pro_left/
           
-          # Wir schreiben die board.yml Zeile für Zeile neu (Linux LF Format)
-          echo "board:" > boards/sofle_choc_pro_left/board.yml
-          echo "  name: sofle_choc_pro_left" >> boards/sofle_choc_pro_left/board.yml
-          echo "  vendor: custom" >> boards/sofle_choc_pro_left/board.yml
-          echo "build:" >> boards/sofle_choc_pro_left/board.yml
-          echo "  soc: nrf52840_qiaa" >> boards/sofle_choc_pro_left/board.yml
+          # Wir nutzen printf für präzisere Kontrolle über Zeilenumbrüche
+          printf "board:\n" > boards/sofle_choc_pro_left/board.yml
+          printf "  name: sofle_choc_pro_left\n" >> boards/sofle_choc_pro_left/board.yml
+          printf "  vendor: custom\n" >> boards/sofle_choc_pro_left/board.yml
+          printf "  revision:\n" >> boards/sofle_choc_pro_left/board.yml
+          printf "    format: major.minor.patch\n" >> boards/sofle_choc_pro_left/board.yml
+          printf "    default: 1.0.0\n" >> boards/sofle_choc_pro_left/board.yml
+          printf "build:\n" >> boards/sofle_choc_pro_left/board.yml
+          printf "  soc: nrf52840_qiaa\n" >> boards/sofle_choc_pro_left/board.yml
           
-          echo "--- Verifizierter Inhalt der board.yml ---"
+          echo "--- DEBUG: FILE CONTENT ---"
           cat boards/sofle_choc_pro_left/board.yml
 
       - name: West Build
@@ -61,8 +64,7 @@ jobs:
           west build -s zmk/app -d "/tmp/tmp.left" -b "sofle_choc_pro_left" -- \
           -DZMK_CONFIG="${{ github.workspace }}/config" \
           -DBOARD_ROOT="${{ github.workspace }}" \
-          -DZEPHYR_EXTRA_MODULES="${{ github.workspace }}" \
-          -DSHIELD="sofle_choc_pro_left"
+          -DZEPHYR_EXTRA_MODULES="${{ github.workspace }}"
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
