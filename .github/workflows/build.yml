@@ -27,18 +27,22 @@ jobs:
           west init -l config
           west update
           west zephyr-export
+          # Radikaler Cache-Cleanup innerhalb des Runners
+          rm -rf ~/.cache/zephyr
 
-      - name: Create Board File (Strict Hardware Model V2)
+      - name: Create Board File (Hardware Model V2 compliant)
         run: |
-          # Wir erstellen die Struktur neu
+          # Wir löschen alte Versionen, um Konflikte zu vermeiden
+          rm -rf boards/sofle_choc_pro_left
           mkdir -p boards/sofle_choc_pro_left/
           
-          # In Zephyr 4.1.0 V2 muss das Board-File oft eine Revision enthalten,
-          # damit der Top-Level-Parser nicht über 'build' stolpert.
+          # WICHTIG: Das neue Schema verlangt oft 'vendor' und 'full_name'
+          # auf der obersten Ebene, damit 'build' korrekt zugeordnet wird.
           cat <<EOF > boards/sofle_choc_pro_left/board.yml
           board:
             name: sofle_choc_pro_left
             vendor: custom
+            full_name: Sofle Choc Pro Left
             revision:
               format: major.minor.patch
               default: 1.0.0
@@ -52,10 +56,12 @@ jobs:
 
       - name: West Build
         run: |
-          # Wir nutzen BOARD_ROOT explizit auf den aktuellen Pfad
+          # Wir setzen BOARD_ROOT explizit auf das Arbeitsverzeichnis
+          # Wir erzwingen mit -p always einen sauberen CMake-Zustand
           west build -p always -s zmk/app -d "/tmp/tmp.left" -b "sofle_choc_pro_left" -- \
           -DZMK_CONFIG="${{ github.workspace }}/config" \
-          -DBOARD_ROOT="${{ github.workspace }}"
+          -DBOARD_ROOT="${{ github.workspace }}" \
+          -DZEPHYR_EXTRA_MODULES="${{ github.workspace }}"
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
