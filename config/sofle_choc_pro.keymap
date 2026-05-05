@@ -31,8 +31,15 @@
             bindings = <&kp>, <&kp>;
         };
 
-        // Behavior für den Zoom-Encoder (hält LCTRL während des Scrollens)
-        // Nutzung: &inc_dec_msc_ctrl
+        // KORREKTUR: Mod-Morph für Zoom (STRG + Scroll)
+        msc_ctrl: msc_ctrl {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <1>; // Hier fehlte das '#'
+            bindings = <&msc>, <&msc>;
+            mods = <(MOD_LCTL)>;
+        };
+
+        // Encoder-Rotation für Zoom
         inc_dec_msc_ctrl: inc_dec_msc_ctrl {
             compatible = "zmk,behavior-sensor-rotate";
             #sensor-binding-cells = <0>;
@@ -40,14 +47,7 @@
             tap-ms = <20>;
         };
 
-        msc_ctrl: msc_ctrl {
-            compatible = "zmk,behavior-mod-morph";
-            #binding-cells = <1>;
-            bindings = <&msc>, <&msc>;
-            mods = <(MOD_LCTL)>;
-        };
-
-        // Flüssigeres Scrollen ohne Modifikatoren
+        // Encoder-Rotation für normales Scrollen
         inc_dec_msc_std: inc_dec_msc_std {
             compatible = "zmk,behavior-sensor-rotate";
             #sensor-binding-cells = <0>;
@@ -92,7 +92,6 @@
                                    &kp LGUI           &kp LALT             &kp LCTRL       &mo 1      &kp RET     &kp SPACE   &mo 2      &kp RCTRL  &kp RALT              &kp RGUI
             >;
 
-            // Links: Lautstärke | Rechts: Scrollen
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_msc_std>;
         };
 
@@ -145,7 +144,7 @@
                                          &kp DE_I           &trans               &trans             &kp DE_SPACE   &kp RET    &none  &none     &trans                 &trans           &none
             >;
 
-            // Beide Encoder im Adobe Layer auf stufenlosem Zoom (STRG + Scroll)
+            // Zoom-Encoder auf beiden Seiten für den Adobe Layer
             sensor-bindings = <&inc_dec_msc_ctrl &inc_dec_msc_ctrl>;
         };
     };
