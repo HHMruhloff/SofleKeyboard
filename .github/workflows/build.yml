@@ -18,17 +18,23 @@ jobs:
 
       - name: Build Left Side
         run: |
-          west build -s zmk/app -d build/left -b nice_nano_v2 -- \
+          # Dynamische Suche nach dem ZMK App Verzeichnis
+          ZMK_APP_PATH=$(find ${{ github.workspace }} -type d -path "*/zmk/app" | head -n 1)
+          if [ -z "$ZMK_APP_PATH" ]; then echo "ZMK App not found"; exit 1; fi
+          
+          west build -s "$ZMK_APP_PATH" -d build/left -b nice_nano_v2 -- \
           -DSHIELD=sofle_choc_pro_left \
-          -DZMK_CONFIG="${GITHUB_WORKSPACE}/config" \
-          -DZMK_EXTRA_MODULES="${GITHUB_WORKSPACE}"
+          -DZMK_CONFIG="${{ github.workspace }}/config" \
+          -DZMK_EXTRA_MODULES="${{ github.workspace }}"
 
       - name: Build Right Side
         run: |
-          west build -s zmk/app -d build/right -b nice_nano_v2 -- \
+          ZMK_APP_PATH=$(find ${{ github.workspace }} -type d -path "*/zmk/app" | head -n 1)
+          
+          west build -s "$ZMK_APP_PATH" -d build/right -b nice_nano_v2 -- \
           -DSHIELD=sofle_choc_pro_right \
-          -DZMK_CONFIG="${GITHUB_WORKSPACE}/config" \
-          -DZMK_EXTRA_MODULES="${GITHUB_WORKSPACE}"
+          -DZMK_CONFIG="${{ github.workspace }}/config" \
+          -DZMK_EXTRA_MODULES="${{ github.workspace }}"
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
