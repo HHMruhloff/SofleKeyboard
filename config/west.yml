@@ -7,7 +7,3 @@ manifest:
       remote: zmkfirmware
       revision: v0.3
       import: app/west.yml
-    # Pointing Modul hinzufügen:
-    - name: zmk-pointing
-      remote: zmkfirmware
-      revision: main
