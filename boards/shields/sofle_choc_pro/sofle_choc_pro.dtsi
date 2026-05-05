@@ -23,7 +23,6 @@
 
     kscan0: kscan {
         compatible = "zmk,kscan-gpio-matrix";
-        wakeup-source;
         diode-direction = "col2row";
         row-gpios
             = <&pro_micro 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
@@ -34,8 +33,6 @@
             ;
     };
 };
-
-&nice_view_spi { status = "okay"; };
 
 &spi3 {
     compatible = "nordic,nrf-spim";
