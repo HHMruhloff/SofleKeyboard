@@ -18,7 +18,6 @@ jobs:
 
       - name: Build Left Side
         run: |
-          # Wir suchen den Pfad zur ZMK App dynamisch, um Fehler auszuschließen
           ZMK_APP_PATH=$(find ${{ github.workspace }} -type d -path "*/zmk/app" | head -n 1)
           west build -s "$ZMK_APP_PATH" -d "/tmp/left" -b "nice_nano_v2" -- \
           -DSHIELD="sofle_choc_pro_left" \
