@@ -24,28 +24,24 @@ jobs:
 
       - name: Initialize Workspace
         run: |
-          # 1. Initialisiere West im aktuellen Verzeichnis mit deiner Config
           west init -l config
-          
-          # 2. Update die Module (hier wird Zephyr geladen)
           west update
-          
-          # 3. Exportiere Zephyr-Umgebung
           west zephyr-export
 
       - name: Fix Zephyr Version (Validator Fix)
         run: |
-          # Wir erzwingen v3.5.0, weil ZMK noch nicht für Zephyr 4.x (V2 Model) bereit ist
           cd zephyr
+          # Wir holen uns alle Tags vom Server, damit v3.5.0 bekannt ist
+          git fetch --tags
+          # Jetzt wechseln wir auf die stabile Version
           git checkout v3.5.0
           cd ..
-          # Module nach dem Downgrade synchronisieren
+          # West muss die Module an die Version 3.5.0 anpassen
           west update
 
       - name: West Build
         run: |
-          # Wir nutzen --pristine (immer sauberer Build)
-          # Wir setzen BOARD_ROOT auf den aktuellen Ordner, damit boards/ gefunden wird
+          # Pristine sorgt für einen komplett frischen CMake-Lauf
           west build -p always -s zmk/app -d "/tmp/tmp.left" -b "sofle_choc_pro_left" -- \
           -DZMK_CONFIG="${{ github.workspace }}/config" \
           -DBOARD_ROOT="${{ github.workspace }}"
