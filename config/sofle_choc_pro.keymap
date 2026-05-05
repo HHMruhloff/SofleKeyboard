@@ -31,7 +31,8 @@
             bindings = <&kp>, <&kp>;
         };
 
-        // KORREKTUR: mod-morph benötigt IMMER 0 binding-cells laut ZMK-Definition
+        // Mod-Morphs für Zoom (SCRL_UP/DOWN mit LCTL)
+        // Bindings auf 0 cells für Kompatibilität
         msc_ctrl_up: msc_ctrl_up {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
@@ -46,20 +47,20 @@
             mods = <(MOD_LCTL)>;
         };
 
-        // Encoder-Rotation für Zoom (nutzt die fixen Mod-Morphs von oben)
+        // Encoder für Zoom
         inc_dec_msc_ctrl: inc_dec_msc_ctrl {
             compatible = "zmk,behavior-sensor-rotate";
             #sensor-binding-cells = <0>;
             bindings = <&msc_ctrl_up>, <&msc_ctrl_down>;
-            tap-ms = <20>;
+            tap-ms = <30>; // Etwas langsamer für Linux HID
         };
 
-        // Encoder-Rotation für normales Scrollen
+        // Encoder für normales Scrollen
         inc_dec_msc_std: inc_dec_msc_std {
             compatible = "zmk,behavior-sensor-rotate";
             #sensor-binding-cells = <0>;
             bindings = <&msc SCRL_UP>, <&msc SCRL_DOWN>;
-            tap-ms = <20>;
+            tap-ms = <30>; // Erhöht auf 30ms für Fedora
         };
 
         rgb_encoder: rgb_encoder {
