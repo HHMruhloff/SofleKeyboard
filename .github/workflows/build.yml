@@ -1,6 +1,5 @@
-name: Build ZMK Firmware
+name: Build
 on: [push, pull_request, workflow_dispatch]
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -9,33 +8,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Initialize West
         run: |
           west init -l .
           west update
           west zephyr-export
-
-      - name: Build Left Side
-        run: |
-          ZMK_APP=$(find /__w -type d -path "*/zmk/app" | head -n 1)
-          west build -s "$ZMK_APP" -d build/left -b nice_nano_v2 -- \
-          -DSHIELD=sofle_choc_pro_left \
-          -DZMK_CONFIG="$(pwd)/config" \
-          -DZMK_EXTRA_MODULES="$(pwd)"
-
-      - name: Build Right Side
-        run: |
-          ZMK_APP=$(find /__w -type d -path "*/zmk/app" | head -n 1)
-          west build -s "$ZMK_APP" -d build/right -b nice_nano_v2 -- \
-          -DSHIELD=sofle_choc_pro_right \
-          -DZMK_CONFIG="$(pwd)/config" \
-          -DZMK_EXTRA_MODULES="$(pwd)"
-
-      - name: Archive artifacts
+      - name: Build Left
+        run: west build -s zmk/app -b nice_nano_v2 -- -DSHIELD=sofle_choc_pro_left -DZMK_CONFIG="${{ github.workspace }}/config" -DZMK_EXTRA_MODULES="${{ github.workspace }}"
+      - name: Build Right
+        run: west build -s zmk/app -b nice_nano_v2 -- -DSHIELD=sofle_choc_pro_right -DZMK_CONFIG="${{ github.workspace }}/config" -DZMK_EXTRA_MODULES="${{ github.workspace }}"
+      - name: Upload
         uses: actions/upload-artifact@v4
         with:
           name: firmware
-          path: |
-            build/left/zephyr/zmk.uf2
-            build/right/zephyr/zmk.uf2
+          path: build/zephyr/*.uf2
