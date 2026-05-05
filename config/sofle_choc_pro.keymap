@@ -11,6 +11,7 @@
 #include <dt-bindings/zmk/ext_power.h>
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/rgb.h>
+#include "zmk-helpers.h"
 #include "keys_de.h"
 
 #define BASE 0
@@ -18,24 +19,21 @@
 #define RAISE 2
 #define ADJUST 3
 #define ADOBE 4
-#define NUMPAD 5
+
+/* REPARATUR FÜR COMPILER-FEHLER: Definition der Binding-Cells */
+&encoder_left {
+    status = "okay";
+    #sensor-binding-cells = <0>;
+};
+
+&encoder_right {
+    status = "okay";
+    #sensor-binding-cells = <0>;
+};
 
 / {
-    /* 
-     * Definition der Encoder-Nodes im Root, um den "undefined node label" Fehler 
-     * zu umgehen und die benötigten #sensor-binding-cells bereitzustellen.
-     */
-    left_encoder: encoder_left {
-        compatible = "alps,ec11";
-        #sensor-binding-cells = <0>;
-    };
-
-    right_encoder: encoder_right {
-        compatible = "alps,ec11";
-        #sensor-binding-cells = <0>;
-    };
-
     behaviors {
+        // Home Row Mods
         hm: home_row_mods {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -45,7 +43,8 @@
             bindings = <&kp>, <&kp>;
         };
 
-        // Spezial-Verhalten für Adobe Zoom (STRG + Scroll)
+        // Spezial-Scroll für Adobe (Zoom mit STRG)
+        // Sendet Wert 15 für deutliche Erkennung unter Linux
         msc_ctrl_up: msc_ctrl_up {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
@@ -60,6 +59,7 @@
             mods = <(MOD_LCTL)>;
         };
 
+        // Encoder für Zoom (Adobe Layer)
         zoom_encoder: zoom_encoder {
             compatible = "zmk,behavior-sensor-rotate";
             #sensor-binding-cells = <0>;
@@ -67,11 +67,19 @@
             tap-ms = <30>;
         };
 
+        // Encoder für normales Scrollen (Default Layer)
+        // Der Wert 20 sorgt für eine kräftige Raste unter Fedora
         scroll_std: scroll_std {
             compatible = "zmk,behavior-sensor-rotate";
             #sensor-binding-cells = <0>;
             bindings = <&msc SCRL_UP 20>, <&msc SCRL_DOWN 20>;
             tap-ms = <30>;
+        };
+
+        rgb_encoder: rgb_encoder {
+            compatible = "zmk,behavior-sensor-rotate";
+            #sensor-binding-cells = <0>;
+            bindings = <&rgb_ug RGB_HUI>, <&rgb_ug RGB_HUD>;
         };
     };
 
@@ -87,7 +95,7 @@
         compatible = "zmk,combos";
         toggle_adobe {
             bindings = <&tog ADOBE>;
-            key-positions = <52 57>; 
+            key-positions = <52 57>;
             timeout-ms = <50>;
         };
     };
@@ -96,7 +104,7 @@
         compatible = "zmk,keymap";
 
         default_layer {
-            display-name = "Base";
+            display-name = "default";
             bindings = <
 &kp DELETE  &kp DE_N1              &kp DE_N2          &kp DE_N3            &kp DE_N4        &kp DE_N5                                          &kp DE_N6  &kp DE_N7  &kp DE_N8             &kp DE_N9            &kp DE_N0                       &kp BACKSPACE
 &kp ESC     &kp Q                  &kp W              &kp E                &kp R            &kp T                                              &kp Y      &kp U      &kp I                 &kp O                &kp P                           &kp DE_U_UMLAUT
@@ -104,11 +112,12 @@
 &kp LSHFT   &kp Z                  &kp X              &kp C                &kp V            &kp B       &kp C_MUTE  &kp C_PLAY                 &kp N      &kp M      &kp COMMA             &kp DOT              &kp SLASH                       &kp RSHFT
                                    &kp LGUI           &kp LALT             &kp LCTRL        &mo 1       &kp RET     &kp SPACE   &mo 2          &kp RCTRL  &kp RALT   &kp RGUI
             >;
+
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &scroll_std>;
         };
 
         lower_layer {
-            display-name = "Lower";
+            display-name = "lower";
             bindings = <
 &none  &kp F1  &kp F2  &kp F4  &kp F5  &kp F6                  &kp F6         &kp F7       &kp F8  &kp F9  &kp F10  &kp F11
 &none  &none   &none   &none   &none   &none   &none   &none   &none          &none        &none   &none   &none    &kp DE_CARET
@@ -116,11 +125,12 @@
 &none  &none   &none   &none   &none   &none   &none   &none   &none          &none        &none   &none   &kp DE_HASH        &none
                &trans  &trans  &trans  &trans  &trans  &trans  &trans         &trans       &trans  &none
             >;
+
             sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &scroll_std>;
         };
 
         raise_layer {
-            display-name = "Raise";
+            display-name = "raise";
             bindings = <
 &bt BT_CLR  &bt BT_SEL 0    &bt BT_SEL 1  &bt BT_SEL 2  &bt BT_SEL 3  &bt BT_SEL 4                  &none      &none     &none      &none  &none  &none
 &none       &kp DE_AT_SIGN  &kp PSCRN     &kp DE_EURO   &none         &none          &kp PG_UP      &none      &kp UP    &none      &none  &none
@@ -128,11 +138,12 @@
 &none       &kp K_UNDO      &kp K_CUT     &kp K_COPY    &kp K_PASTE   &none          &none      &none  &none      &none     &none      &none  &none  &none
                             &none         &none         &none         &none          &none      &none  &none      &none     &none      &none
             >;
+
             sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &scroll_std>;
         };
 
         adjust_layer {
-            display-name = "Adjust";
+            display-name = "adjust";
             bindings = <
 &bt BT_CLR          &bt BT_SEL 0     &bt BT_SEL 1     &bt BT_SEL 2     &bt BT_SEL 3     &bt BT_SEL 4                               &none  &none  &none  &none  &none   &none
 &ext_power EP_TOG   &rgb_ug RGB_HUD  &rgb_ug RGB_HUI  &rgb_ug RGB_SAD  &rgb_ug RGB_SAI  &rgb_ug RGB_EFF  &none                     &none  &none  &none  &none   &none
@@ -140,31 +151,21 @@
 &none               &none            &none            &none            &trans           &trans           &rgb_ug RGB_TOG  &none    &none  &none  &none  &none   &trans  &none
                                      &none            &none            &none            &none            &none            &none    &none  &none  &none  &none
             >;
-            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &scroll_std>;
+            
+            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &rgb_encoder>;
         };
 
         adobe_layer {
-            display-name = "Adobe";
+            display-name = "adobe";
             bindings = <
 &kp DEL           &kp DE_N0              &kp DE_N1          &kp DE_MINUS         &kp DE_PLUS        &kp BACKSPACE                 &kp F5    &none     &kp F9    &kp F10          &kp F11          &kp F12
 &kp LC(DE_PLUS)   &kp DE_P               &kp DE_W           &kp DE_E             &kp DE_R           &kp DE_T                      &kp DE_Z  &kp DE_U  &kp DE_I  &kp DE_O         &kp DE_P         &none
 &kp LC(DE_MINUS)  &hm LEFT_CONTROL DE_A  &hm LEFT_ALT DE_S  &hm LEFT_SHIFT DE_D  &hm DE_SPACE DE_F  &kp DE_G                      &kp DE_H  &kp DE_J  &hm RIGHT_SHIFT DE_K  &kp DE_L  &kp UP_ARROW     &none
 &kp LEFT_SHIFT    &kp DE_Y               &kp DE_X           &kp DE_C             &kp DE_V           &kp DE_B      &none    &none  &kp DE_N  &kp DE_M  &none     &kp LEFT_ARROW   &kp DOWN_ARROW   &kp RIGHT_ARROW
-                                         &kp LGUI           &trans               &trans             &kp DE_SPACE  &kp RET  &none  &none     &trans    &trans    &none
+                                         &kp DE_I           &trans               &trans             &kp DE_SPACE  &kp RET  &none  &none     &trans    &trans    &none
             >;
-            sensor-bindings = <&zoom_encoder &zoom_encoder>;
-        };
 
-        numpad_layer {
-            display-name = "Numpad";
-            bindings = <
-&kp ESC    &none  &none  &none  &none  &none                        &none      &kp DE_N7  &kp DE_N8  &kp DE_N9  &kp DE_SLASH     &kp BACKSPACE
-&none      &none  &none  &none  &none  &none                        &none      &kp DE_N4  &kp DE_N5  &kp DE_N6  &kp DE_ASTERISK  &none
-&none      &none  &none  &none  &none  &none                        &none      &kp DE_N1  &kp DE_N2  &kp DE_N3  &kp DE_MINUS     &none
-&none      &none  &none  &none  &none  &none  &none         &none   &none      &kp DE_N0  &kp DE_COMMA  &kp DE_DOT  &kp DE_PLUS   &none
-                  &tog NUMPAD  &none  &none  &kp DE_SPACE  &kp RET  &none      &none      &none
-            >;
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &scroll_std>;
+            sensor-bindings = <&zoom_encoder &zoom_encoder>;
         };
     };
 };
