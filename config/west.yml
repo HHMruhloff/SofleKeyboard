@@ -5,11 +5,11 @@ manifest:
   projects:
     - name: zephyr
       remote: zmkfirmware
-      revision: v3.5.0+zmk-fixes  # <--- DAS HIER IST ENTSCHEIDEND
-      import: publish/west-zephyr.yml
+      revision: v3.5.0+zmk-fixes
+      import: share/zephyr-package/cmake/west-zephyr.yml # <--- Geänderter Pfad für v3.5
     - name: zmk
       remote: zmkfirmware
       revision: main
-      import: append-config/west.yml
+      import: app/west.yml # <--- Standard ZMK App Import
   self:
     path: config
