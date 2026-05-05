@@ -28,20 +28,31 @@ jobs:
           west update
           west zephyr-export
 
-      - name: Fix Zephyr Version (Validator Fix)
+      - name: Create Board File (Strict Hardware Model V2)
         run: |
-          cd zephyr
-          # Wir holen alle Infos vom Fork
-          git fetch --all
-          # Wir wechseln auf die stabile ZMK-Version 3.5
-          # Der Name muss exakt so lauten wie im Log oben angezeigt
-          git checkout v3.5.0+zmk-fixes
-          cd ..
-          # Module abgleichen
-          west update
+          # Wir erstellen die Struktur neu
+          mkdir -p boards/sofle_choc_pro_left/
+          
+          # In Zephyr 4.1.0 V2 muss das Board-File oft eine Revision enthalten,
+          # damit der Top-Level-Parser nicht über 'build' stolpert.
+          cat <<EOF > boards/sofle_choc_pro_left/board.yml
+          board:
+            name: sofle_choc_pro_left
+            vendor: custom
+            revision:
+              format: major.minor.patch
+              default: 1.0.0
+          
+          build:
+            soc: nrf52840_qiaa
+          EOF
+          
+          echo "--- DEBUG: FILE CONTENT ---"
+          cat boards/sofle_choc_pro_left/board.yml
 
       - name: West Build
         run: |
+          # Wir nutzen BOARD_ROOT explizit auf den aktuellen Pfad
           west build -p always -s zmk/app -d "/tmp/tmp.left" -b "sofle_choc_pro_left" -- \
           -DZMK_CONFIG="${{ github.workspace }}/config" \
           -DBOARD_ROOT="${{ github.workspace }}"
