@@ -9,13 +9,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Initialize Workspace
         run: |
           west init -l .
           west update
           west zephyr-export
-
       - name: Build Left Side
         run: |
           ZMK_APP_PATH=$(find ${{ github.workspace }} -type d -path "*/zmk/app" | head -n 1)
@@ -23,7 +21,6 @@ jobs:
           -DSHIELD="sofle_choc_pro_left" \
           -DZMK_CONFIG="${{ github.workspace }}/config" \
           -DZMK_EXTRA_MODULES="${{ github.workspace }}"
-
       - name: Build Right Side
         run: |
           ZMK_APP_PATH=$(find ${{ github.workspace }} -type d -path "*/zmk/app" | head -n 1)
@@ -31,7 +28,6 @@ jobs:
           -DSHIELD="sofle_choc_pro_right" \
           -DZMK_CONFIG="${{ github.workspace }}/config" \
           -DZMK_EXTRA_MODULES="${{ github.workspace }}"
-
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
         with:
