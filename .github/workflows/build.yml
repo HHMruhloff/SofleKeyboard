@@ -22,37 +22,33 @@ jobs:
       - name: Install West
         run: pip install west
 
-      - name: Initialize Workspace (Force Zephyr 3.5)
+      - name: Initialize Workspace
         run: |
-          # Wir erzwingen eine Zephyr-Version, mit der ZMK tatsächlich arbeitet
-          west init -m https://github.com/zmkfirmware/zmk --mr main workspace
-          cd workspace
-          # Wir setzen Zephyr explizit auf v3.5.0 (stabil für ZMK)
-          cd zephyr && git checkout v3.5.0 && cd ..
+          # 1. Initialisiere West im aktuellen Verzeichnis mit deiner Config
+          west init -l config
+          
+          # 2. Update die Module (hier wird Zephyr geladen)
           west update
+          
+          # 3. Exportiere Zephyr-Umgebung
           west zephyr-export
 
-      - name: Prepare Board
+      - name: Fix Zephyr Version (Validator Fix)
         run: |
-          # Board-Pfad im neuen Workspace-Layout
-          mkdir -p workspace/boards/arm/sofle_choc_pro_left/
-          cat <<EOF > workspace/boards/arm/sofle_choc_pro_left/board.yml
-          board:
-            name: sofle_choc_pro_left
-          build:
-            soc: nrf52840_qiaa
-          EOF
-          
-          # Deine Config in den Workspace schieben
-          cp -r config workspace/
+          # Wir erzwingen v3.5.0, weil ZMK noch nicht für Zephyr 4.x (V2 Model) bereit ist
+          cd zephyr
+          git checkout v3.5.0
+          cd ..
+          # Module nach dem Downgrade synchronisieren
+          west update
 
       - name: West Build
         run: |
-          cd workspace
-          # Wir nutzen den absoluten Pfad zur App im Workspace
-          west build -s zmk/app -d "/tmp/tmp.left" -b "sofle_choc_pro_left" -- \
-          -DZMK_CONFIG="${{ github.workspace }}/workspace/config" \
-          -DBOARD_ROOT="${{ github.workspace }}/workspace"
+          # Wir nutzen --pristine (immer sauberer Build)
+          # Wir setzen BOARD_ROOT auf den aktuellen Ordner, damit boards/ gefunden wird
+          west build -p always -s zmk/app -d "/tmp/tmp.left" -b "sofle_choc_pro_left" -- \
+          -DZMK_CONFIG="${{ github.workspace }}/config" \
+          -DBOARD_ROOT="${{ github.workspace }}"
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
