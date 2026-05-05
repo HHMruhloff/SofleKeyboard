@@ -1,6 +1,8 @@
 #include "sofle_choc_pro.dtsi"
 
-&default_transform { col-offset = <6>; };
+&default_transform {
+    col-offset = <6>;
+};
 
 &kscan0 {
     col-gpios
