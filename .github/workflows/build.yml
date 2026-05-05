@@ -12,7 +12,8 @@ jobs:
 
       - name: Initialize Workspace
         run: |
-          west init -l .
+          # Wir erzwingen den Pfad zum Workspace, um die west.yml sicher zu finden
+          west init -l "${{ github.workspace }}"
           west update
           west zephyr-export
 
