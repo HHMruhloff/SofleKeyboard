@@ -12,7 +12,7 @@ jobs:
 
       - name: Initialize Workspace
         run: |
-          west init -l "${{ github.workspace }}"
+          west init -l .
           west update
           west zephyr-export
 
