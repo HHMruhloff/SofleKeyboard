@@ -1,3 +1,4 @@
+name: sofle_choc_pro
 build:
   settings:
     shield_root: .
