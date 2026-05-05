@@ -31,8 +31,30 @@
             bindings = <&kp>, <&kp>;
         };
 
-        // Neues Behavior für flüssiges Scrollen/Zoomen
-        // Erlaubt inc_dec_msc SCRL_UP SCRL_DOWN
+        // Behavior für den Zoom-Encoder (hält LCTRL während des Scrollens)
+        // Nutzung: &inc_dec_msc_ctrl
+        inc_dec_msc_ctrl: inc_dec_msc_ctrl {
+            compatible = "zmk,behavior-sensor-rotate";
+            #sensor-binding-cells = <0>;
+            bindings = <&msc_ctrl SCRL_UP>, <&msc_ctrl SCRL_DOWN>;
+            tap-ms = <20>;
+        };
+
+        msc_ctrl: msc_ctrl {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <1>;
+            bindings = <&msc>, <&msc>;
+            mods = <(MOD_LCTL)>;
+        };
+
+        // Flüssigeres Scrollen ohne Modifikatoren
+        inc_dec_msc_std: inc_dec_msc_std {
+            compatible = "zmk,behavior-sensor-rotate";
+            #sensor-binding-cells = <0>;
+            bindings = <&msc SCRL_UP>, <&msc SCRL_DOWN>;
+            tap-ms = <20>;
+        };
+
         rgb_encoder: rgb_encoder {
             compatible = "zmk,behavior-sensor-rotate";
             #sensor-binding-cells = <0>;
@@ -70,7 +92,8 @@
                                    &kp LGUI           &kp LALT             &kp LCTRL       &mo 1      &kp RET     &kp SPACE   &mo 2      &kp RCTRL  &kp RALT              &kp RGUI
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_msc SCRL_UP SCRL_DOWN>;
+            // Links: Lautstärke | Rechts: Scrollen
+            sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_msc_std>;
         };
 
         lower_layer {
@@ -83,7 +106,7 @@
                &trans  &trans  &trans  &trans  &trans  &trans  &trans  &trans   &trans       &none
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_msc SCRL_UP SCRL_DOWN>;
+            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_msc_std>;
         };
 
         raise_layer {
@@ -96,7 +119,7 @@
                             &none         &none         &none         &none          &none      &none  &none  &none     &none     &none
             >;
 
-            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_msc SCRL_UP SCRL_DOWN>;
+            sensor-bindings = <&inc_dec_kp C_VOL_DN C_VOL_UP &inc_dec_msc_std>;
         };
 
         adjust_layer {
@@ -122,11 +145,8 @@
                                          &kp DE_I           &trans               &trans             &kp DE_SPACE   &kp RET    &none  &none     &trans                 &trans           &none
             >;
 
-            // BEIDE Encoder im Adobe-Layer auf Zoom (STRG + Scroll)
-            sensor-bindings = <
-                &inc_dec_mscl LCTRL SCRL_UP SCRL_DOWN
-                &inc_dec_mscl LCTRL SCRL_UP SCRL_DOWN
-            >;
+            // Beide Encoder im Adobe Layer auf stufenlosem Zoom (STRG + Scroll)
+            sensor-bindings = <&inc_dec_msc_ctrl &inc_dec_msc_ctrl>;
         };
     };
 };
