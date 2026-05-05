@@ -4,42 +4,31 @@ on: [push, pull_request, workflow_dispatch]
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+      image: zmkfirmware/zmk-build-arm:stable
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Cache west modules
-        uses: actions/cache@v4
-        with:
-          path: |
-            modules/
-            tools/
-            zephyr/
-            bootloader/
-            zmk/
-          key: ${{ runner.os }}-zmk-${{ hashFiles('**/west.yml') }}
-          restore-keys: ${{ runner.os }}-zmk-
-
-      - name: Install West & Dependencies
+      - name: Initialize West Workspace
         run: |
-          pip3 install west
-          west init -l config || west init -l .
+          west init -l .
           west update
           west zephyr-export
 
-      - name: Build Left
+      - name: Build Left Side
         run: |
           west build -s zmk/app -d build/left -b nice_nano_v2 -- \
           -DSHIELD=sofle_choc_pro_left \
-          -DZMK_CONFIG="${{ github.workspace }}/config" \
-          -DZMK_EXTRA_MODULES="${{ github.workspace }}"
+          -DZMK_CONFIG="${GITHUB_WORKSPACE}/config" \
+          -DZMK_EXTRA_MODULES="${GITHUB_WORKSPACE}"
 
-      - name: Build Right
+      - name: Build Right Side
         run: |
           west build -s zmk/app -d build/right -b nice_nano_v2 -- \
           -DSHIELD=sofle_choc_pro_right \
-          -DZMK_CONFIG="${{ github.workspace }}/config" \
-          -DZMK_EXTRA_MODULES="${{ github.workspace }}"
+          -DZMK_CONFIG="${GITHUB_WORKSPACE}/config" \
+          -DZMK_EXTRA_MODULES="${GITHUB_WORKSPACE}"
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
