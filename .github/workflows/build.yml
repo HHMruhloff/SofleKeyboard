@@ -20,15 +20,15 @@ jobs:
         run: |
           west build -s zmk/app -d build/left -b nice_nano_v2 -- \
           -DSHIELD=sofle_choc_pro_left \
-          -DZMK_CONFIG="${{ github.workspace }}/config" \
-          -DZMK_EXTRA_MODULES="${{ github.workspace }}"
+          -DZMK_CONFIG="${GITHUB_WORKSPACE}/config" \
+          -DZMK_EXTRA_MODULES="${GITHUB_WORKSPACE}"
 
       - name: Build Right Side
         run: |
           west build -s zmk/app -d build/right -b nice_nano_v2 -- \
           -DSHIELD=sofle_choc_pro_right \
-          -DZMK_CONFIG="${{ github.workspace }}/config" \
-          -DZMK_EXTRA_MODULES="${{ github.workspace }}"
+          -DZMK_CONFIG="${GITHUB_WORKSPACE}/config" \
+          -DZMK_EXTRA_MODULES="${GITHUB_WORKSPACE}"
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
