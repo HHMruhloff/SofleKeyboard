@@ -27,30 +27,36 @@ jobs:
           west init -l config
           west update
           west zephyr-export
-          # Cache löschen, um alte Schema-Fehler zu entfernen
+          # Cache im Runner löschen
           rm -rf ~/.cache/zephyr
 
-      - name: Create Board File (Ultra-Safe Formatted)
+      - name: Create Isolated Board Directory
         run: |
-          mkdir -p boards/sofle_choc_pro_left/
-          # Wir nutzen printf, um sicherzustellen, dass KEINE unsichtbaren Zeichen entstehen
-          # Das Format folgt exakt dem Zephyr 4.1 V2 Hardware Model
-          printf "board:\n" > boards/sofle_choc_pro_left/board.yml
-          printf "  name: sofle_choc_pro_left\n" >> boards/sofle_choc_pro_left/board.yml
-          printf "  vendor: custom\n" >> boards/sofle_choc_pro_left/board.yml
-          printf "build:\n" >> boards/sofle_choc_pro_left/board.yml
-          printf "  soc: nrf52840_qiaa\n" >> boards/sofle_choc_pro_left/board.yml
-
-          echo "--- DEBUG: FILE CONTENT ---"
-          cat boards/sofle_choc_pro_left/board.yml
+          # Wir löschen den alten Ordner komplett, falls er existiert
+          rm -rf build_boards/
+          mkdir -p build_boards/arm/sofle_choc_pro_left/
+          
+          # Wir schreiben die board.yml mit absolutem Fokus auf Zephyr 4.1 V2
+          # KEINE Leerzeichen am Zeilenende, KEINE Tabs.
+          printf "board:\n" > build_boards/arm/sofle_choc_pro_left/board.yml
+          printf "  name: sofle_choc_pro_left\n" >> build_boards/arm/sofle_choc_pro_left/board.yml
+          printf "  vendor: custom\n" >> build_boards/arm/sofle_choc_pro_left/board.yml
+          printf "build:\n" >> build_boards/arm/sofle_choc_pro_left/board.yml
+          printf "  soc: nrf52840_qiaa\n" >> build_boards/arm/sofle_choc_pro_left/board.yml
+          
+          # WICHTIG: Kopiere die restlichen notwendigen Dateien (Shields etc.) 
+          # in den neuen isolierten Ordner, falls sie im Repo unter boards/ liegen
+          cp boards/sofle_choc_pro_left/* build_boards/arm/sofle_choc_pro_left/ 2>/dev/null || true
+          # Lösche eine eventuell vorhandene alte .yaml Datei im Zielordner, 
+          # da Zephyr 4.1 NUR die board.yml sehen will
+          rm -f build_boards/arm/sofle_choc_pro_left/sofle_choc_pro_left.yaml
 
       - name: West Build
         run: |
-          # Wir nutzen -p always und setzen BOARD_ROOT auf den aktuellen Ordner
+          # Wir setzen BOARD_ROOT auf unseren neuen, isolierten Ordner
           west build -p always -s zmk/app -d "/tmp/tmp.left" -b "sofle_choc_pro_left" -- \
           -DZMK_CONFIG="${{ github.workspace }}/config" \
-          -DBOARD_ROOT="${{ github.workspace }}" \
-          -DZEPHYR_EXTRA_MODULES="${{ github.workspace }}"
+          -DBOARD_ROOT="${{ github.workspace }}/build_boards"
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
