@@ -18,11 +18,8 @@ jobs:
 
       - name: Build Left Side
         run: |
-          # Finde die Pfade innerhalb des Containers
           ZMK_APP=$(find /__w -type d -path "*/zmk/app" | head -n 1)
-          # Wir nutzen PWD (aktuelles Verzeichnis im Container) statt github.workspace
           REPO_ROOT=$(pwd)
-          
           west build -s "$ZMK_APP" -d build/left -b nice_nano_v2 -- \
           -DSHIELD=sofle_choc_pro_left \
           -DZMK_CONFIG="$REPO_ROOT/config" \
@@ -32,7 +29,6 @@ jobs:
         run: |
           ZMK_APP=$(find /__w -type d -path "*/zmk/app" | head -n 1)
           REPO_ROOT=$(pwd)
-          
           west build -s "$ZMK_APP" -d build/right -b nice_nano_v2 -- \
           -DSHIELD=sofle_choc_pro_right \
           -DZMK_CONFIG="$REPO_ROOT/config" \
