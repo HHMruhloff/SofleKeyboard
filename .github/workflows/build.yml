@@ -1,19 +1,14 @@
 name: Build ZMK Firmware
 on:
   push:
-    branches:
-      - main
-      - ModernCode
+    branches: [ main, ModernCode ]
   pull_request:
-    branches:
-      - main
-      - ModernCode
+    branches: [ main, ModernCode ]
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    name: Build Left Side
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -29,39 +24,12 @@ jobs:
       - name: Initialize Workspace
         run: |
           west init -l config
-          # Wir erzwingen das Update ohne Cache-Einflüsse
           west update
           west zephyr-export
 
-      - name: Fix Board File Schema (Universal Fix)
-        run: |
-          # Wir korrigieren die Datei direkt in deinem Repo-Pfad für den Build.
-          # Das Key 'build' Problem in 4.1 entsteht, wenn die Einrückung oder 
-          # die Root-Definition 'board:' nicht perfekt ist.
-          
-          # Erstelle den Pfad sicherheitshalber neu
-          mkdir -p boards/arm/sofle_choc_pro_left/
-          
-          # Schreibe eine board.yml, die JEDER Validator (3.5 und 4.1) frisst:
-          cat <<EOF > boards/arm/sofle_choc_pro_left/board.yml
-          board:
-            name: sofle_choc_pro_left
-            vendor: custom
-            revision:
-              format: major.minor.patch
-              default: 1.0.0
-          
-          build:
-            soc: nrf52840_qiaa
-          EOF
-
       - name: West Build
         run: |
-          # Wir löschen den Zephyr Cache direkt vor dem Build-Aufruf
-          rm -rf ~/.cache/zephyr
-          
-          # Wir bauen mit explizitem BOARD_ROOT auf das Hauptverzeichnis
-          west build -p always -s zmk/app -d "/tmp/tmp.left" -b "sofle_choc_pro_left" -- \
+          west build -s zmk/app -d "/tmp/tmp.left" -b "sofle_choc_pro_left" -- \
           -DZMK_CONFIG="${{ github.workspace }}/config" \
           -DBOARD_ROOT="${{ github.workspace }}"
 
