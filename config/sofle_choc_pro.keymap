@@ -31,19 +31,26 @@
             bindings = <&kp>, <&kp>;
         };
 
-        // KORREKTUR: Mod-Morph für Zoom (STRG + Scroll)
-        msc_ctrl: msc_ctrl {
+        // KORREKTUR: mod-morph benötigt IMMER 0 binding-cells laut ZMK-Definition
+        msc_ctrl_up: msc_ctrl_up {
             compatible = "zmk,behavior-mod-morph";
-            #binding-cells = <1>; // Hier fehlte das '#'
-            bindings = <&msc>, <&msc>;
+            #binding-cells = <0>;
+            bindings = <&msc SCRL_UP>, <&msc SCRL_UP>;
             mods = <(MOD_LCTL)>;
         };
 
-        // Encoder-Rotation für Zoom
+        msc_ctrl_down: msc_ctrl_down {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&msc SCRL_DOWN>, <&msc SCRL_DOWN>;
+            mods = <(MOD_LCTL)>;
+        };
+
+        // Encoder-Rotation für Zoom (nutzt die fixen Mod-Morphs von oben)
         inc_dec_msc_ctrl: inc_dec_msc_ctrl {
             compatible = "zmk,behavior-sensor-rotate";
             #sensor-binding-cells = <0>;
-            bindings = <&msc_ctrl SCRL_UP>, <&msc_ctrl SCRL_DOWN>;
+            bindings = <&msc_ctrl_up>, <&msc_ctrl_down>;
             tap-ms = <20>;
         };
 
@@ -144,7 +151,6 @@
                                          &kp DE_I           &trans               &trans             &kp DE_SPACE   &kp RET    &none  &none     &trans                 &trans           &none
             >;
 
-            // Zoom-Encoder auf beiden Seiten für den Adobe Layer
             sensor-bindings = <&inc_dec_msc_ctrl &inc_dec_msc_ctrl>;
         };
     };
