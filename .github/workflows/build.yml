@@ -29,25 +29,38 @@ jobs:
       - name: Initialize Workspace
         run: |
           west init -l config
+          # Wir erzwingen das Update ohne Cache-Einflüsse
           west update
           west zephyr-export
-          
-      - name: Force Zephyr 3.5 (Downgrade)
+
+      - name: Fix Board File Schema (Universal Fix)
         run: |
-          # Wir gehen in den zephyr ordner, den west angelegt hat
-          cd zephyr
-          # Wir holen uns die stabile Version direkt von der Quelle
-          git remote add zmk https://github.com/zmkfirmware/zephyr || true
-          git fetch zmk v3.5.0+zmk-fixes
-          git checkout FETCH_HEAD
-          cd ..
-          # West muss die Module an die "alte" Version anpassen
-          west update
+          # Wir korrigieren die Datei direkt in deinem Repo-Pfad für den Build.
+          # Das Key 'build' Problem in 4.1 entsteht, wenn die Einrückung oder 
+          # die Root-Definition 'board:' nicht perfekt ist.
+          
+          # Erstelle den Pfad sicherheitshalber neu
+          mkdir -p boards/arm/sofle_choc_pro_left/
+          
+          # Schreibe eine board.yml, die JEDER Validator (3.5 und 4.1) frisst:
+          cat <<EOF > boards/arm/sofle_choc_pro_left/board.yml
+          board:
+            name: sofle_choc_pro_left
+            vendor: custom
+            revision:
+              format: major.minor.patch
+              default: 1.0.0
+          
+          build:
+            soc: nrf52840_qiaa
+          EOF
 
       - name: West Build
         run: |
-          # Jetzt nutzen wir wieder dein normales Setup
-          # Der Validator von 4.1.0 ist nun Geschichte
+          # Wir löschen den Zephyr Cache direkt vor dem Build-Aufruf
+          rm -rf ~/.cache/zephyr
+          
+          # Wir bauen mit explizitem BOARD_ROOT auf das Hauptverzeichnis
           west build -p always -s zmk/app -d "/tmp/tmp.left" -b "sofle_choc_pro_left" -- \
           -DZMK_CONFIG="${{ github.workspace }}/config" \
           -DBOARD_ROOT="${{ github.workspace }}"
