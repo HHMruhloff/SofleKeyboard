@@ -10,25 +10,28 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Initialize West Workspace
+      - name: Initialize West
         run: |
+          # Initialisiert West im aktuellen Verzeichnis
           west init -l .
+          # Holt den ZMK Quellcode physisch in den Unterordner ./zmk
           west update
           west zephyr-export
 
       - name: Build Left Side
         run: |
+          # Wir nutzen den absoluten Pfad zur App
           west build -s zmk/app -d build/left -b nice_nano_v2 -- \
           -DSHIELD=sofle_choc_pro_left \
-          -DZMK_CONFIG="${GITHUB_WORKSPACE}/config" \
-          -DZMK_EXTRA_MODULES="${GITHUB_WORKSPACE}"
+          -DZMK_CONFIG="${{ github.workspace }}/config" \
+          -DZMK_EXTRA_MODULES="${{ github.workspace }}"
 
       - name: Build Right Side
         run: |
           west build -s zmk/app -d build/right -b nice_nano_v2 -- \
           -DSHIELD=sofle_choc_pro_right \
-          -DZMK_CONFIG="${GITHUB_WORKSPACE}/config" \
-          -DZMK_EXTRA_MODULES="${GITHUB_WORKSPACE}"
+          -DZMK_CONFIG="${{ github.workspace }}/config" \
+          -DZMK_EXTRA_MODULES="${{ github.workspace }}"
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
