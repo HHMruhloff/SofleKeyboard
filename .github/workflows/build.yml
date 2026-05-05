@@ -10,7 +10,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Initialize West Workspace
+      - name: Initialize West
         run: |
           west init -l .
           west update
@@ -19,20 +19,18 @@ jobs:
       - name: Build Left Side
         run: |
           ZMK_APP=$(find /__w -type d -path "*/zmk/app" | head -n 1)
-          REPO_ROOT=$(pwd)
           west build -s "$ZMK_APP" -d build/left -b nice_nano_v2 -- \
           -DSHIELD=sofle_choc_pro_left \
-          -DZMK_CONFIG="$REPO_ROOT/config" \
-          -DZMK_EXTRA_MODULES="$REPO_ROOT"
+          -DZMK_CONFIG="$(pwd)/config" \
+          -DZMK_EXTRA_MODULES="$(pwd)"
 
       - name: Build Right Side
         run: |
           ZMK_APP=$(find /__w -type d -path "*/zmk/app" | head -n 1)
-          REPO_ROOT=$(pwd)
           west build -s "$ZMK_APP" -d build/right -b nice_nano_v2 -- \
           -DSHIELD=sofle_choc_pro_right \
-          -DZMK_CONFIG="$REPO_ROOT/config" \
-          -DZMK_EXTRA_MODULES="$REPO_ROOT"
+          -DZMK_CONFIG="$(pwd)/config" \
+          -DZMK_EXTRA_MODULES="$(pwd)"
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
