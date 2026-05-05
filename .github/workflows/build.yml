@@ -18,14 +18,17 @@ jobs:
 
       - name: Build Left Side
         run: |
-          west build -s zmk/app -d "/tmp/left" -b "nice_nano_v2" -- \
+          # Wir suchen den Pfad zur ZMK App dynamisch, um Fehler auszuschließen
+          ZMK_APP_PATH=$(find ${{ github.workspace }} -type d -path "*/zmk/app" | head -n 1)
+          west build -s "$ZMK_APP_PATH" -d "/tmp/left" -b "nice_nano_v2" -- \
           -DSHIELD="sofle_choc_pro_left" \
           -DZMK_CONFIG="${{ github.workspace }}/config" \
           -DZMK_EXTRA_MODULES="${{ github.workspace }}"
 
       - name: Build Right Side
         run: |
-          west build -s zmk/app -d "/tmp/right" -b "nice_nano_v2" -- \
+          ZMK_APP_PATH=$(find ${{ github.workspace }} -type d -path "*/zmk/app" | head -n 1)
+          west build -s "$ZMK_APP_PATH" -d "/tmp/right" -b "nice_nano_v2" -- \
           -DSHIELD="sofle_choc_pro_right" \
           -DZMK_CONFIG="${{ github.workspace }}/config" \
           -DZMK_EXTRA_MODULES="${{ github.workspace }}"
