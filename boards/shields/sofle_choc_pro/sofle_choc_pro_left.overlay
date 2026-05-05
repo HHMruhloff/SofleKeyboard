@@ -1,12 +1,20 @@
 #include "sofle_choc_pro.dtsi"
+    &kscan0 {
+        col-gpios
+            = <&pro_micro 19 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 18 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 15 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 14 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 16 GPIO_ACTIVE_HIGH>
+            , <&pro_micro 10 GPIO_ACTIVE_HIGH>
+            ;
+    };
+    ```
 
-&kscan0 {
-    col-gpios
-        = <&pro_micro 19 GPIO_ACTIVE_HIGH>
-        , <&pro_micro 18 GPIO_ACTIVE_HIGH>
-        , <&pro_micro 15 GPIO_ACTIVE_HIGH>
-        , <&pro_micro 14 GPIO_ACTIVE_HIGH>
-        , <&pro_micro 16 GPIO_ACTIVE_HIGH>
-        , <&pro_micro 10 GPIO_ACTIVE_HIGH>
-        ;
-};
+---
+
+### Zusammenfassung der Änderungen:
+1.  **`zephyr/module.yml`**: Wir haben ein `name:` Attribut hinzugefügt (manchmal hilft das bei der Schema-Validierung) und die Einrückung korrigiert.
+2.  **`build.yml`**: Wir nutzen `$(pwd)` statt `${{ github.workspace }}`, um sicherzustellen, dass der Pfad innerhalb des Docker-Containers (Beginnend mit `/__w/...`) absolut sauber ist.
+
+**Tipp:** Wenn du die `module.yml` bearbeitest, nutze einen Editor, der unsichtbare Zeichen anzeigt, um sicherzustellen, dass keine Tabs verwendet werden. Das Schema-Validation-System von Zephyr reagiert darauf allergisch.
