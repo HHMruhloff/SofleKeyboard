@@ -34,6 +34,8 @@
     };
 };
 
+&nice_view_spi { status = "okay"; };
+
 &spi3 {
     compatible = "nordic,nrf-spim";
     status = "okay";
