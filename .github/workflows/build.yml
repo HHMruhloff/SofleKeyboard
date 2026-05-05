@@ -12,28 +12,31 @@ jobs:
 
       - name: Initialize West Workspace
         run: |
-          # Wir erzwingen, dass West das aktuelle Verzeichnis als Root nutzt
           west init -l .
-          # West update lädt ZMK herunter. Wir prüfen danach den Pfad.
           west update
           west zephyr-export
 
       - name: Build Left Side
         run: |
-          # Wir suchen den Pfad zur App absolut, falls west ihn verschoben hat
+          # Finde die Pfade innerhalb des Containers
           ZMK_APP=$(find /__w -type d -path "*/zmk/app" | head -n 1)
+          # Wir nutzen PWD (aktuelles Verzeichnis im Container) statt github.workspace
+          REPO_ROOT=$(pwd)
+          
           west build -s "$ZMK_APP" -d build/left -b nice_nano_v2 -- \
           -DSHIELD=sofle_choc_pro_left \
-          -DZMK_CONFIG="${{ github.workspace }}/config" \
-          -DZMK_EXTRA_MODULES="${{ github.workspace }}"
+          -DZMK_CONFIG="$REPO_ROOT/config" \
+          -DZMK_EXTRA_MODULES="$REPO_ROOT"
 
       - name: Build Right Side
         run: |
           ZMK_APP=$(find /__w -type d -path "*/zmk/app" | head -n 1)
+          REPO_ROOT=$(pwd)
+          
           west build -s "$ZMK_APP" -d build/right -b nice_nano_v2 -- \
           -DSHIELD=sofle_choc_pro_right \
-          -DZMK_CONFIG="${{ github.workspace }}/config" \
-          -DZMK_EXTRA_MODULES="${{ github.workspace }}"
+          -DZMK_CONFIG="$REPO_ROOT/config" \
+          -DZMK_EXTRA_MODULES="$REPO_ROOT"
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
