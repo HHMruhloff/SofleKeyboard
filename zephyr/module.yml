@@ -1,3 +1,4 @@
+name: sofle_keyboard_config
 build:
   settings:
     board_root: .
