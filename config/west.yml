@@ -1,12 +1,8 @@
 manifest:
   remotes:
     - name: zmkfirmware
-      url-base: https://github.com/zmkfirmware
+      url: https://github.com/zmkfirmware/zmk
   projects:
-    - name: zephyr
-      remote: zmkfirmware
-      revision: v3.5.0+zmk-fixes
-      import: true # <--- West sucht sich die passende Datei automatisch
     - name: zmk
       remote: zmkfirmware
       revision: main

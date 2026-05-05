@@ -1,10 +1,5 @@
 name: Build ZMK Firmware
-on:
-  push:
-    branches: [ main, ModernCode ]
-  pull_request:
-    branches: [ main, ModernCode ]
-  workflow_dispatch:
+on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
@@ -21,30 +16,24 @@ jobs:
           west update
           west zephyr-export
 
-      - name: Prepare Board Directory
+      - name: Build Left Side
         run: |
-          # Zephyr braucht zwingend: [BOARD_ROOT]/boards/arm/[BOARD_NAME]
-          # Wir erstellen diese Struktur in einem temporären Verzeichnis
-          mkdir -p build_boards/boards/arm/
-          
-          # Wir suchen dein Board im Repo und kopieren es an die richtige Stelle
-          # Falls es in 'boards/sofle_choc_pro_left' liegt:
-          if [ -d "boards/sofle_choc_pro_left" ]; then
-            cp -r boards/sofle_choc_pro_left build_boards/boards/arm/
-          # Falls es in 'boards/arm/sofle_choc_pro_left' liegt:
-          elif [ -d "boards/arm/sofle_choc_pro_left" ]; then
-            cp -r boards/arm/sofle_choc_pro_left build_boards/boards/arm/
-          fi
-
-      - name: West Build
-        run: |
-          # Wir setzen BOARD_ROOT auf unser neu gebautes Verzeichnis
-          west build -s zmk/app -d "/tmp/tmp.left" -b "sofle_choc_pro_left" -- \
+          west build -s zmk/app -d "/tmp/left" -b "nice_nano_v2" -- \
+          -DSHIELD="sofle_choc_pro_left" \
           -DZMK_CONFIG="${{ github.workspace }}/config" \
-          -DBOARD_ROOT="${{ github.workspace }}/build_boards"
+          -DZMK_EXTRA_MODULES="${{ github.workspace }}"
+
+      - name: Build Right Side
+        run: |
+          west build -s zmk/app -d "/tmp/right" -b "nice_nano_v2" -- \
+          -DSHIELD="sofle_choc_pro_right" \
+          -DZMK_CONFIG="${{ github.workspace }}/config" \
+          -DZMK_EXTRA_MODULES="${{ github.workspace }}"
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
         with:
           name: firmware
-          path: /tmp/tmp.left/zephyr/zmk.uf2
+          path: |
+            /tmp/left/zephyr/zmk.uf2
+            /tmp/right/zephyr/zmk.uf2

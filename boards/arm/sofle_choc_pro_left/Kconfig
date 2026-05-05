@@ -1,8 +1,0 @@
-if BOARD_SOFLE_CHOC_PRO_LEFT
-
-config BOARD
-    default "sofle_choc_pro_left"
-
-# Wir lassen ZMK/Zephyr hier die Arbeit machen und fügen KEINE source-Befehle ein.
-
-endif
