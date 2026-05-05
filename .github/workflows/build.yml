@@ -22,23 +22,20 @@ jobs:
       - name: Install West
         run: pip install west
 
-      - name: Initialize ZMK Workspace
+      - name: Initialize Workspace
         run: |
-          # Wir nutzen west init direkt auf das ZMK Repo, 
-          # um die stabile Zephyr-Version von ZMK zu erhalten.
-          west init -m https://github.com/zmkfirmware/zmk --mr main workspace
-          cd workspace
-          # Wir kopieren deine Config in den Workspace
-          cp -r ../config ./
-          cp -r ../boards ./ 2>/dev/null || true
+          # Wir initialisieren den Workspace basierend auf deiner Config
+          west init -l config
+          # Wir erzwingen das Update, um die korrekten Zephyr-Module zu laden
           west update
           west zephyr-export
 
-      - name: Force Create Board File (Strict Legacy Mode)
+      - name: Create Board File (Classic Format)
         run: |
-          # Wir erstellen das Board im alten Format, falls ZMK noch auf Zephyr 3.x läuft
-          mkdir -p workspace/boards/arm/sofle_choc_pro_left/
-          cat <<EOF > workspace/boards/arm/sofle_choc_pro_left/board.yml
+          # Wir nutzen das klassische Format, da ZMK stabil auf Zephyr 3.x läuft
+          # Wir platzieren es in einem BOARD_ROOT, den wir später explizit angeben
+          mkdir -p boards/arm/sofle_choc_pro_left/
+          cat <<EOF > boards/arm/sofle_choc_pro_left/board.yml
           board:
             name: sofle_choc_pro_left
           build:
@@ -47,10 +44,11 @@ jobs:
 
       - name: West Build
         run: |
-          cd workspace
-          west build -s zmk/app -d "/tmp/tmp.left" -b "sofle_choc_pro_left" -- \
-          -DZMK_CONFIG="${{ github.workspace }}/workspace/config" \
-          -DBOARD_ROOT="${{ github.workspace }}/workspace"
+          # Wir bauen die App und geben BOARD_ROOT explizit an
+          # WICHTIG: -p always löscht alte CMake-Konfigurationen
+          west build -p always -s zmk/app -d "/tmp/tmp.left" -b "sofle_choc_pro_left" -- \
+          -DZMK_CONFIG="${{ github.workspace }}/config" \
+          -DBOARD_ROOT="${{ github.workspace }}"
 
       - name: Archive artifacts
         uses: actions/upload-artifact@v4
