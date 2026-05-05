@@ -28,26 +28,26 @@ jobs:
 
       - name: Initialize Workspace
         run: |
-          # Wir initialisieren West ganz normal
           west init -l config
-          # Wir holen die Module
           west update
           west zephyr-export
           
       - name: Force Zephyr 3.5 (Downgrade)
         run: |
-          # Wir erzwingen Version 3.5.0, die den fehlerhaften Validator nicht hat
+          # Wir gehen in den zephyr ordner, den west angelegt hat
           cd zephyr
-          git fetch origin v3.5.0+zmk-fixes
+          # Wir holen uns die stabile Version direkt von der Quelle
+          git remote add zmk https://github.com/zmkfirmware/zephyr || true
+          git fetch zmk v3.5.0+zmk-fixes
           git checkout FETCH_HEAD
           cd ..
-          # Module nach dem Wechsel synchronisieren
+          # West muss die Module an die "alte" Version anpassen
           west update
 
       - name: West Build
         run: |
-          # Da wir jetzt auf 3.5.0 sind, können wir deinen originalen boards-Ordner nutzen
-          # Der Validator von 4.1.0 wird uns nicht mehr stören
+          # Jetzt nutzen wir wieder dein normales Setup
+          # Der Validator von 4.1.0 ist nun Geschichte
           west build -p always -s zmk/app -d "/tmp/tmp.left" -b "sofle_choc_pro_left" -- \
           -DZMK_CONFIG="${{ github.workspace }}/config" \
           -DBOARD_ROOT="${{ github.workspace }}"
