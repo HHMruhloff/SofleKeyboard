@@ -163,7 +163,7 @@
                 <&inc_dec_kp LC(DE_MINUS) LC(DE_PLUS)>;
         };
 
-        num {
+        num_layer {
             bindings = <
 &to 4  &none  &none      &none      &none      &none                            &none  &none  &none  &none   &none  &none
 &none  &none  &kp DE_N7  &kp DE_N8  &kp DE_N9  &kp DE_N0     &none                     &none  &none  &none   &none  &none
