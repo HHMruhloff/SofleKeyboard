@@ -33,6 +33,29 @@
             bindings = <&msc SCRL_UP 120>, <&msc SCRL_DOWN 120>;
             tap-ms = <20>;
         };
+
+        // Behavior für den Adobe Layer (Zoom)
+        inc_dec_msc_ctrl: inc_dec_msc_ctrl {
+            compatible = "zmk,behavior-sensor-rotate-var";
+            #sensor-binding-cells = <0>;
+            bindings = <&msc_ctrl_up>, <&msc_ctrl_down>;
+        };
+
+        msc_ctrl_up: msc_ctrl_up {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&msc SCRL_UP 120>, <&msc SCRL_UP 120>;
+            mods = <(MOD_LCTL)>;
+            keep-mods = <(MOD_LCTL)>;
+        };
+
+        msc_ctrl_down: msc_ctrl_down {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&msc SCRL_DOWN 120>, <&msc SCRL_DOWN 120>;
+            mods = <(MOD_LCTL)>;
+            keep-mods = <(MOD_LCTL)>;
+        };
     };
 
     conditional_layers {
@@ -115,7 +138,6 @@
                                          &kp DE_I           &trans               &trans             &kp DE_SPACE  &kp RET  &none  &trans    &trans    &trans    &tog 5
             >;
 
-            // Korrektur: Wir nutzen den Modifikator direkt im Binding
             sensor-bindings = <&inc_dec_msc_ctrl>, <&inc_dec_msc_ctrl>;
         };
 
@@ -128,28 +150,5 @@
               &none      &none      &none      &kp DE_COMMA  &kp DE_DOT  &none  &none  &none  &none  &trans
             >;
         };
-    };
-
-    // Zusätzliche Hilfs-Behaviors am Ende
-    inc_dec_msc_ctrl: inc_dec_msc_ctrl {
-        compatible = "zmk,behavior-sensor-rotate-var";
-        #sensor-binding-cells = <0>;
-        bindings = <&msc_ctrl_up>, <&msc_ctrl_down>;
-    };
-
-    msc_ctrl_up: msc_ctrl_up {
-        compatible = "zmk,behavior-mod-morph";
-        #binding-cells = <0>;
-        bindings = <&msc SCRL_UP 120>, <&msc SCRL_UP 120>;
-        mods = <(MOD_LCTL)>;
-        keep-mods = <(MOD_LCTL)>;
-    };
-
-    msc_ctrl_down: msc_ctrl_down {
-        compatible = "zmk,behavior-mod-morph";
-        #binding-cells = <0>;
-        bindings = <&msc SCRL_DOWN 120>, <&msc SCRL_DOWN 120>;
-        mods = <(MOD_LCTL)>;
-        keep-mods = <(MOD_LCTL)>;
     };
 };
