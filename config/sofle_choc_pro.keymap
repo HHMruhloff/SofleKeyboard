@@ -18,6 +18,7 @@
 #define RAISE 2
 #define ADJUST 3
 #define ADOBE 4
+#define NUM 5
 
 / {
     behaviors {
