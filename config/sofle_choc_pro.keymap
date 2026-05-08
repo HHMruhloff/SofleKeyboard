@@ -44,25 +44,25 @@
            funktioniert sie immer.
         */
 
-        toggle_adobe {
+        to_adobe {
             bindings = <&to 4>;
             key-positions = <59 57>;
             timeout-ms = <50>;
         };
 
-        toggle_default {
+        to_default {
             bindings = <&to 0>;
             key-positions = <59 58>;
             timeout-ms = <50>;
         };
 
-        toggle_adjust {
+        to_adjust {
             bindings = <&tog 3>;
             key-positions = <59 55>;
             timeout-ms = <50>;
         };
 
-        f_number_toggle {
+        to_f_number {
             bindings = <&to 5>;
             key-positions = <59 56>;
             timeout-ms = <50>;
