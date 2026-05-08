@@ -67,6 +67,34 @@
             key-positions = <59 56>;
             timeout-ms = <50>;
         };
+
+        adobe_to_default {
+            bindings = <&to 0>;
+            key-positions = <59 58>;
+            timeout-ms = <50>;
+            layers = <4>;
+        };
+
+        number_to_default {
+            bindings = <&to 0>;
+            key-positions = <59 58>;
+            timeout-ms = <50>;
+            layers = <5>;
+        };
+
+        f_keys_layer_to_default {
+            bindings = <&to 0>;
+            key-positions = <59 58>;
+            timeout-ms = <50>;
+            layers = <6>;
+        };
+
+        adjust_layer_to_default {
+            bindings = <&to 0>;
+            key-positions = <59 58>;
+            timeout-ms = <50>;
+            layers = <3>;
+        };
     };
 
     keymap {
