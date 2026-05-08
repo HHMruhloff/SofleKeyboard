@@ -53,11 +53,13 @@
         toggle_default {
             bindings = <&tog 0>;
             key-positions = <59 58>;
+            timeout-ms = <50>;
         };
 
         toggle_adjust {
             bindings = <&tog 3>;
             key-positions = <59 56>;
+            timeout-ms = <50>;
         };
     };
 
@@ -123,10 +125,6 @@
 &none       &kp K_UNDO      &kp K_CUT     &kp K_COPY    &kp K_PASTE   &none         &none      &none  &none  &none     &none     &none      &none  &none
                             &none         &none         &none         &none         &none      &none  &none  &none     &none     &none
             >;
-
-            sensor-bindings =
-                <&inc_dec_kp C_VOL_DN C_VOL_UP>,
-                <&inc_dec_kp K_SCROLL_DOWN K_SCROLL_UP>;
         };
 
         adjust_layer {
