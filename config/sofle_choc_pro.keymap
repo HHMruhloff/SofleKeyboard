@@ -45,13 +45,13 @@
         */
 
         toggle_adobe {
-            bindings = <&tog 4>;
+            bindings = <&to 4>;
             key-positions = <59 57>;
             timeout-ms = <50>;
         };
 
         toggle_default {
-            bindings = <&tog 0>;
+            bindings = <&to 0>;
             key-positions = <59 58>;
             timeout-ms = <50>;
         };
@@ -63,7 +63,7 @@
         };
 
         f_number_toggle {
-            bindings = <&tog 5>;
+            bindings = <&to 5>;
             key-positions = <59 55>;
             timeout-ms = <50>;
         };
