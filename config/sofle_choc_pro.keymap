@@ -54,6 +54,11 @@
             bindings = <&tog 0>;
             key-positions = <59 58>;
         };
+
+        toggle_adjust {
+            bindings = <&tog 3>;
+            key-positions = <59 56>;
+        };
     };
 
     keymap {
