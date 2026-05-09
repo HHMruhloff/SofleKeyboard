@@ -222,6 +222,7 @@
         };
 
         adobe_arrow_keys {
+            display-name = "arrows";
             bindings = <
 &none  &none  &none  &none           &none  &none                &none   &none           &none           &none            &none            &none
 &none  &none  &none  &none           &none  &none  &none                 &none           &kp UP_ARROW    &none            &none            &none
