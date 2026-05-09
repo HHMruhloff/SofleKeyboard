@@ -97,27 +97,6 @@
             timeout-ms = <50>;
             layers = <3>;
         };
-
-        a_and_s_oe {
-            bindings = <&kp DE_O_UMLAUT>;
-            key-positions = <25 26>;
-            layers = <0>;
-            timeout-ms = <50>;
-        };
-
-        s_and_d_ss {
-            bindings = <&kp DE_ESZETT>;
-            key-positions = <26 27>;
-            require-prior-idle-ms = <50>;
-            layers = <0>;
-        };
-
-        i_and_u_ue {
-            bindings = <&kp DE_U_UMLAUT>;
-            key-positions = <13 14>;
-            require-prior-idle-ms = <50>;
-            layers = <0>;
-        };
     };
 
     keymap {
@@ -238,6 +217,16 @@
 &none  &none  &none  &none  &none  &none  &none                 &kp F1  &kp F2   &kp F3   &kp F4   &none
 &none  &none  &none  &none  &none  &none  &none  &none  &none   &none   &none    &none    &none    &none
               &none  &none  &none  &none  &none  &to 5  &trans  &trans  &trans   &trans
+            >;
+        };
+
+        adobe_arrow_keys {
+            bindings = <
+&none  &none  &none  &none           &none  &none                &none            &none           &none           &none            &none  &none
+&none  &none  &none  &none           &none  &none  &none                          &none           &kp UP_ARROW    &none            &none  &none
+&none  &none  &none  &kp LEFT_SHIFT  &none  &none  &none                          &kp LEFT_ARROW  &kp DOWN_ARROW  &kp RIGHT_ARROW  &none  &none
+&none  &none  &none  &none           &none  &none  &none  &none  &none            &none           &none           &none            &none  &none
+              &none  &none           &none  &none  &none  &none  &kp RIGHT_SHIFT  &none           &none           &none
             >;
         };
     };
