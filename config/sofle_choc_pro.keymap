@@ -7,6 +7,9 @@
 #include "zmk-helpers.h"
 #include "keys_de.h"
 
+#define MS_WHEEL_UP   SCROLL_VERT(15)
+#define MS_WHEEL_DOWN SCROLL_VERT(-15)
+
 #define BASE 0
 #define LOWER 1
 #define RAISE 2
@@ -123,7 +126,7 @@
 
             sensor-bindings =
                 <&inc_dec_kp C_VOL_UP C_VOL_DN>,
-                <&inc_dec_kp MS_WHEEL_UP MS_WHEEL_DOWN>
+                <&inc_dec_kp PG_DN PG_UP>;
         };
 
         lower_layer {
