@@ -125,7 +125,7 @@
 
             sensor-bindings =
                 <&inc_dec_kp C_VOL_UP C_VOL_DN>,
-                <&inc_dec_msc M_SCUP M_SCDN>;
+                <&inc_dec_kp 0x01000001 0x01000002>;
         };
 
         lower_layer {
